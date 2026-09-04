@@ -32,6 +32,11 @@ async function safeAction(req) {
 
 export default async (req, _context) => {
   const store = getStore("gl-licenses");
+  const url0 = new URL(req.url);
+  if (url0.searchParams.get("action") === "debug") {
+    const s = Netlify.env.get("ADMIN_SECRET");
+    return new Response(JSON.stringify({ hasSecret: Boolean(s), length: s ? s.length : 0 }), { headers: { "content-type": "application/json" } });
+  }
   const url = new URL(req.url);
   const action = url.searchParams.get("action") || (await safeAction(req));
 
