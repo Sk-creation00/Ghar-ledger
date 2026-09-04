@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">
+<meta name="theme-color" content="#33202B">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ghar Ledger">
+<title>Ghar Ledger — Home Accounts</title>
+<style>
+  :root{
+    --cover: #33202B;
+    --cover-dark: #22151C;
+    --paper: #F4EEDC;
+    --paper-raised: #FFFDF6;
+    --line: #DCD0A9;
+    --ink: #241F1A;
+    --ink-soft: #7A6E58;
+    --red: #9C3B3B;
+    --red-soft: rgba(156,59,59,0.10);
+    --green: #3D6B4C;
+    --green-soft: rgba(61,107,76,0.10);
+    --gold: #B8862E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{ height:100%; }
+  body{
+    font-family: 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+    background: radial-gradient(circle at 20% 0%, #442A38, var(--cover) 55%);
+    color: var(--ink);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding: max(20px, env(safe-area-inset-top)) 12px calc(50px + env(safe-area-inset-bottom));
+    -webkit-tap-highlight-color: transparent;
+  }
+  #app{ width:100%; max-width:460px; }
+
+  /* ---------- Cover ---------- */
+  .cover{
+    background: linear-gradient(155deg, var(--cover), var(--cover-dark));
+    border-radius: 16px 16px 0 0;
+    padding: 24px 22px 24px;
+    color: var(--paper);
+    position:relative;
+    overflow:hidden;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
+  }
+  .cover::before{
+    content:"";
+    position:absolute; inset:0;
+    background: repeating-linear-gradient(180deg, transparent 0 27px, rgba(255,255,255,0.025) 27px 28px);
+    pointer-events:none;
+  }
+  .cover::after{
+    content:"";
+    position:absolute; left:16px; top:0; bottom:0; width:1px;
+    background: rgba(184,134,46,0.55);
+  }
+  .brand-row{ display:flex; align-items:baseline; justify-content:space-between; }
+  .brand{ font-size: 20px; letter-spacing:0.01em; }
+  .brand em{ font-style:normal; color:#C9A868; }
+  .tagline{ font-size: 11px; color: #B8AF9A; margin-top:2px; letter-spacing:0.03em; }
+
+  .balance-block{ margin-top: 22px; }
+  .balance-label{ font-size:11.5px; color:#C9BFA0; text-transform:uppercase; letter-spacing:0.08em; }
+  .balance{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 38px;
+    font-weight:700;
+    letter-spacing: -0.015em;
+    margin-top: 4px;
+  }
+  .period{ font-size:11.5px; color:#C9A868; margin-top:2px; }
+
+  .sub-stats{
+    display:flex; gap:10px; margin-top:18px;
+  }
+  .stat-pill{
+    flex:1; background: rgba(255,255,255,0.05); border-radius:10px;
+    padding: 9px 12px; border: 1px solid rgba(255,255,255,0.07);
+  }
+  .stat-pill .lbl{ font-size:10.5px; color:#B8AF9A; text-transform:uppercase; letter-spacing:0.06em;}
+  .stat-pill .val{ font-family:'Courier New', monospace; font-size:16px; margin-top:3px; }
+  .stat-pill.in .val{ color:#8FC2A2; }
+  .stat-pill.out .val{ color:#DE9C9C; }
+
+  /* ---------- Page ---------- */
+  .page{
+    background: var(--paper);
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.4);
+  }
+
+  .tabs{
+    display:flex;
+    border-bottom: 1px solid var(--line);
+    padding: 0 16px;
+  }
+  .tab{
+    flex:1; text-align:center; padding: 14px 2px 12px;
+    font-size: 12px; color: var(--ink-soft);
+    cursor:pointer; border-bottom: 2px solid transparent;
+    background:none; border-left:none; border-right:none; border-top:none;
+    font-family: inherit; transition: color .15s;
+  }
+  .tab.active{ color: var(--cover); border-bottom-color: var(--gold); font-weight:bold; }
+
+  .panel{ display:none; padding: 20px 20px 10px; animation: fadein .18s ease; }
+  .panel.active{ display:block; }
+  @keyframes fadein{ from{opacity:0; transform:translateY(3px);} to{opacity:1; transform:none;} }
+
+  /* ---------- Form ---------- */
+  .form-title{ font-size:14px; color:var(--ink-soft); margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;}
+  .form-title .cancel-edit{ font-size:12px; color:var(--red); cursor:pointer; text-decoration:underline; }
+
+  .field{ margin-bottom: 15px; }
+  .field label{
+    display:block; font-size: 10.5px; color: var(--ink-soft);
+    text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px;
+  }
+  .field input, .field select{
+    width:100%; padding: 11px 12px; font-size: 16px;
+    background: var(--paper-raised); border: 1px solid var(--line);
+    border-radius: 8px; font-family: inherit; color: var(--ink);
+    -webkit-appearance: none; appearance: none;
+  }
+  .field input:focus, .field select:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+
+  .type-toggle{ display:flex; gap:8px; margin-bottom:16px; }
+  .type-btn{
+    flex:1; padding:11px; text-align:center; border-radius:8px;
+    border:1px solid var(--line); cursor:pointer; font-size:14px;
+    background: var(--paper-raised); color:var(--ink-soft); transition: all .12s;
+  }
+  .type-btn.sel-out{ background: var(--red-soft); border-color: var(--red); color: var(--red); font-weight:bold;}
+  .type-btn.sel-in{ background: var(--green-soft); border-color: var(--green); color: var(--green); font-weight:bold;}
+
+  .save-btn{
+    width:100%; padding: 14px; background: var(--cover); color: var(--paper);
+    border:none; border-radius:9px; font-size:15px; cursor:pointer;
+    font-family: inherit; margin-top: 6px; letter-spacing:0.01em;
+  }
+  .save-btn:active{ background: var(--cover-dark); }
+
+  /* ---------- Item builder (grocery items with quantity) ---------- */
+  .items-toggle{
+    font-size: 12.5px; color: var(--gold); cursor:pointer; margin: -4px 0 14px;
+    text-decoration: underline; display:inline-block;
+  }
+  .item-builder{
+    background: rgba(184,134,46,0.06); border: 1px solid var(--line);
+    border-radius: 10px; padding: 12px; margin-bottom: 14px;
+  }
+  .item-row{
+    display:grid; grid-template-columns: 1fr 52px 70px 26px;
+    gap: 6px; margin-bottom: 8px; align-items:center;
+  }
+  .item-row input{
+    padding: 8px 9px; font-size: 16px; background: var(--paper-raised);
+    border: 1px solid var(--line); border-radius: 6px; font-family:inherit; color:var(--ink); width:100%;
+    -webkit-appearance: none; appearance: none;
+  }
+  .item-row .item-remove{
+    color: var(--red); text-align:center; cursor:pointer; font-size:16px; line-height:1;
+  }
+  .item-row-labels{
+    display:grid; grid-template-columns: 1fr 52px 70px 26px; gap:6px;
+    font-size: 9px; color: var(--ink-soft); text-transform:uppercase; letter-spacing:0.04em;
+    margin-bottom: 5px;
+  }
+  .add-item-btn{
+    font-size: 12.5px; color: var(--cover); cursor:pointer; text-align:center;
+    padding: 7px; border: 1px dashed var(--line); border-radius: 7px; margin-top: 2px;
+  }
+  .items-total-row{
+    font-size: 12.5px; color: var(--ink-soft); text-align:right; margin-top: 10px;
+  }
+  .items-total-row b{ font-family:'Courier New', monospace; color: var(--ink); }
+  .item-summary{ font-size: 11px; color: var(--ink-soft); margin-top: 8px; line-height:1.6; }
+  .item-summary .row{ display:flex; justify-content:space-between; }
+
+  /* ---------- Passbook ---------- */
+  .pb-head-row{
+    display:flex; justify-content:space-between; font-size:10px; color:var(--ink-soft);
+    text-transform:uppercase; letter-spacing:0.06em; padding-bottom:8px; border-bottom:1px solid var(--line); margin-bottom:6px;
+  }
+  .pb-row{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    padding: 9px 2px; border-bottom: 1px dashed var(--line); font-size:12.5px;
+  }
+  .pb-left{ display:flex; flex-direction:column; max-width:62%; }
+  .pb-date{ font-size:10px; color:var(--ink-soft); }
+  .pb-desc{ margin-top:1px; }
+  .pb-right{ text-align:right; }
+  .pb-amt{ font-family:'Courier New', monospace; font-size:12.5px; }
+  .pb-amt.out{ color: var(--red); }
+  .pb-amt.in{ color: var(--green); }
+  .pb-balance{ font-family:'Courier New', monospace; font-size:13px; font-weight:bold; margin-top:2px; }
+
+  /* ---------- History ---------- */
+  .day-group{ margin-bottom: 18px; }
+  .day-label{
+    font-size: 10.5px; color: var(--ink-soft); text-transform:uppercase;
+    letter-spacing:0.07em; margin-bottom: 8px; padding-left:2px;
+  }
+  .entry{
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 11px 4px; border-bottom: 1px dashed var(--line);
+    cursor:pointer; transition: background .1s;
+  }
+  .entry:active{ background: rgba(184,134,46,0.08); border-radius:6px; }
+  .entry-left{ display:flex; flex-direction:column; min-width:0; }
+  .entry-cat{ font-size: 14.5px; }
+  .entry-note{ font-size: 11.5px; color: var(--ink-soft); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:220px; }
+  .entry-right{ display:flex; align-items:center; gap:8px; }
+  .entry-amt{ font-family:'Courier New', monospace; font-size:15px; font-weight:bold; }
+  .entry-amt.out{ color: var(--red); }
+  .entry-amt.in{ color: var(--green); }
+  .chev{ color: var(--ink-soft); opacity:0.5; font-size:13px; }
+  .empty-note{ text-align:center; color:var(--ink-soft); font-size:13px; padding: 36px 10px; }
+
+  /* ---------- Categories ---------- */
+  .cat-row{ margin-bottom: 15px; }
+  .cat-top{ display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:6px; }
+  .cat-amt{ font-family:'Courier New', monospace; }
+  .bar-track{ height:8px; background:#E4DBBE; border-radius:5px; overflow:hidden; }
+  .bar-fill{ height:100%; background: linear-gradient(90deg, var(--gold), #D6A94A); border-radius:5px; }
+
+  .footer-note{
+    text-align:center; font-size: 11px; color: rgba(244,238,220,0.5);
+    padding: 16px 20px 0;
+  }
+  .reset-link{
+    text-align:center; font-size:11.5px; color: rgba(244,238,220,0.6);
+    padding: 8px 0 4px; cursor:pointer; text-decoration:underline;
+  }
+
+  /* ---------- Action sheet ---------- */
+  .overlay{
+    position:fixed; inset:0; background: rgba(20,14,18,0.55);
+    display:none; align-items:flex-end; justify-content:center; z-index:50;
+  }
+  .overlay.show{ display:flex; }
+  .sheet{
+    width:100%; max-width:460px; background: var(--paper-raised);
+    border-radius: 16px 16px 0 0; padding: 18px 20px 26px;
+    animation: slideup .2s ease;
+  }
+  @keyframes slideup{ from{ transform: translateY(100%);} to{ transform: translateY(0);} }
+  .sheet-title{ font-size:13px; color:var(--ink-soft); margin-bottom:4px; }
+  .sheet-entry{ font-size:16px; margin-bottom:16px; }
+  .sheet-entry b{ font-family:'Courier New', monospace; }
+  .sheet-btn{
+    width:100%; padding:13px; border-radius:9px; font-size:14.5px;
+    border:1px solid var(--line); background:var(--paper-raised); color:var(--ink);
+    margin-bottom:9px; cursor:pointer; font-family:inherit; text-align:left;
+    display:flex; align-items:center; gap:10px;
+  }
+  .sheet-btn.danger{ color:var(--red); border-color: rgba(156,59,59,0.3); background: var(--red-soft); }
+  .sheet-btn.cancel{ text-align:center; justify-content:center; color:var(--ink-soft); border:none; margin-top:2px; }
+  .confirm-row{ display:flex; gap:8px; }
+  .confirm-row .sheet-btn{ margin-bottom:0; justify-content:center; }
+</style>
+</head>
+<body>
+<div id="lockScreen" style="display:none; text-align:center; color:var(--paper); padding-top:70px; max-width:380px; margin:0 auto;">
+  <div style="font-size:20px;"><em style="color:#C9A868; font-style:normal;">Ghar</em> Ledger</div>
+  <div style="font-size:12px; color:#B8AF9A; margin-top:6px;">This copy needs a license key to unlock.</div>
+  <input type="text" id="licenseInput" placeholder="GL-XXXX-XXXX"
+    style="width:220px; text-align:center; letter-spacing:0.12em; font-size:16px; padding:12px;
+    border-radius:8px; border:1px solid var(--line); margin-top:22px; background:var(--paper-raised);
+    font-family:'Courier New',monospace; color:var(--ink);">
+  <div>
+    <button id="licenseUnlockBtn" style="margin-top:14px; background:var(--gold); color:var(--cover-dark);
+      border:none; padding:11px 26px; border-radius:8px; font-size:14px; cursor:pointer; font-family:inherit; font-weight:bold;">
+      Unlock
+    </button>
+  </div>
+  <div id="licenseErr" style="color:#E39B9B; font-size:12px; margin-top:10px; min-height:16px;"></div>
+  <div style="font-size:11px; color:#8A7D8A; margin-top:18px;">Don't have a key? Contact whoever set this up for you.</div>
+</div>
+
+<div id="app" style="display:none;">
+
+<script>
+(function licenseGate(){
+  const params = new URLSearchParams(location.search);
+  const urlKey = params.get('key');
+
+  function getDeviceId(){
+    let id = localStorage.getItem('gl_device_id');
+    if(!id){
+      id = 'dev-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem('gl_device_id', id);
+    }
+    return id;
+  }
+  function getStoredLicense(){
+    try{ return JSON.parse(localStorage.getItem('gl_license') || 'null'); }catch(e){ return null; }
+  }
+  function storeLicense(key, name){
+    localStorage.setItem('gl_license', JSON.stringify({ key, name: name || '', date: new Date().toISOString() }));
+  }
+  function showApp(){
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+  }
+  function showLock(){
+    document.getElementById('lockScreen').style.display = 'block';
+  }
+  function setBusy(busy){
+    const btn = document.getElementById('licenseUnlockBtn');
+    if(btn) btn.textContent = busy ? 'Checking…' : 'Unlock';
+  }
+  function setErr(msg){
+    const el = document.getElementById('licenseErr');
+    if(el) el.textContent = msg;
+  }
+
+  async function verifyKey(key){
+    setBusy(true); setErr('');
+    try{
+      const res = await fetch('/api/license?action=verify', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ key, deviceId: getDeviceId() })
+      });
+      const data = await res.json();
+      setBusy(false);
+      if(data.ok){
+        storeLicense(key, data.name);
+        showApp();
+      } else if(data.reason === 'already_activated'){
+        setErr('This key is already in use on another device.');
+      } else if(data.reason === 'revoked'){
+        setErr('This license has been revoked. Contact the seller.');
+      } else if(data.reason === 'not_found'){
+        setErr('Invalid license key.');
+      } else {
+        setErr('Could not verify key. Try again.');
+      }
+    }catch(e){
+      setBusy(false);
+      setErr('No internet connection. Activation needs internet the first time only.');
+    }
+  }
+
+  // Already activated on this device — skip straight in, fully offline from here on.
+  const existing = getStoredLicense();
+  if(existing && existing.key){
+    showApp();
+    return;
+  }
+
+  showLock();
+  if(urlKey){
+    document.getElementById('licenseInput').value = urlKey;
+    verifyKey(urlKey);
+  }
+
+  document.getElementById('licenseUnlockBtn').onclick = () => {
+    const val = document.getElementById('licenseInput').value.trim().toUpperCase();
+    if(!val){ setErr('Please enter your license key.'); return; }
+    verifyKey(val);
+  };
+  document.getElementById('licenseInput').addEventListener('keydown', e => {
+    if(e.key === 'Enter') document.getElementById('licenseUnlockBtn').click();
+  });
+})();
+</script>
+
+
+  <div class="cover">
+    <div class="brand-row">
+      <div class="brand"><em>Ghar</em> Ledger</div>
+    </div>
+    <div class="tagline">household accounts, kept properly</div>
+
+    <div class="balance-block">
+      <div class="balance-label">Balance this month</div>
+      <div class="balance" id="balanceDisplay">Rs 0</div>
+      <div class="period" id="monthLabel"></div>
+    </div>
+
+    <div class="sub-stats">
+      <div class="stat-pill in"><div class="lbl">Income</div><div class="val" id="inTotal">0</div></div>
+      <div class="stat-pill out"><div class="lbl">Spent</div><div class="val" id="outTotal">0</div></div>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="tabs">
+      <button class="tab active" data-tab="add">Add</button>
+      <button class="tab" data-tab="history">History</button>
+      <button class="tab" data-tab="categories">Categories</button>
+      <button class="tab" data-tab="passbook">Passbook</button>
+    </div>
+
+    <div class="panel active" id="panel-add">
+      <div class="form-title">
+        <span id="formTitleText">New entry</span>
+        <span class="cancel-edit" id="cancelEdit" style="display:none;">Cancel edit</span>
+      </div>
+      <div class="type-toggle">
+        <div class="type-btn sel-out" id="btnOut">Expense</div>
+        <div class="type-btn" id="btnIn">Income</div>
+      </div>
+      <div class="field">
+        <label>Amount (Rs)</label>
+        <input type="number" id="inAmount" placeholder="0" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select id="inCategory"></select>
+      </div>
+
+      <div class="items-toggle" id="itemsToggle">+ &nbsp; Add items with quantity (e.g. grocery list)</div>
+      <div class="item-builder" id="itemBuilder" style="display:none;">
+        <div id="itemRows"></div>
+        <div class="add-item-btn" id="addItemBtn">+ Add another item</div>
+        <div class="items-total-row">Items total: <b id="itemsTotalDisplay">Rs 0</b></div>
+      </div>
+
+      <div class="field">
+        <label>Note (optional)</label>
+        <input type="text" id="inNote" placeholder="e.g. weekly grocery run">
+      </div>
+      <button class="save-btn" id="saveBtn">Save entry</button>
+    </div>
+
+    <div class="panel" id="panel-history">
+      <div id="historyList"></div>
+    </div>
+
+    <div class="panel" id="panel-categories">
+      <div id="catList"></div>
+    </div>
+
+    <div class="panel" id="panel-passbook">
+      <div class="pb-head-row">
+        <span>Date / Detail</span>
+        <span>Balance</span>
+      </div>
+      <div id="passbookList"></div>
+    </div>
+  </div>
+
+  <div class="footer-note">Works fully offline — entries are stored only on this device.</div>
+  <div class="reset-link" id="resetLink">Reset entries</div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+const EXPENSE_CATS = ["Groceries","Utilities","Transport","Rent","Health","Education","Household","Other"];
+const INCOME_CATS = ["Salary","Business","Gift","Other income"];
+
+let entries = [];
+let currentType = "out";
+let editingId = null;
+let pendingDeleteId = null;
+let currentItems = [];
+
+const monthLabel = new Date().toLocaleDateString('en-US',{month:'long', year:'numeric'});
+document.getElementById('monthLabel').textContent = monthLabel;
+
+function seedData(){
+  const today = new Date();
+  const d = (n)=>{ const x=new Date(today); x.setDate(x.getDate()-n); return x.toISOString(); };
+  return [
+    {id:1, type:'in', amount:85000, category:'Salary', note:'Monthly salary', date:d(6)},
+    {id:2, type:'out', amount:6200, category:'Groceries', note:'Weekly grocery run', date:d(5)},
+    {id:3, type:'out', amount:3500, category:'Utilities', note:'Electricity bill', date:d(4)},
+    {id:4, type:'out', amount:1800, category:'Transport', note:'Fuel', date:d(3)},
+    {id:5, type:'out', amount:2200, category:'Household', note:'Kitchen supplies', date:d(2)},
+    {id:6, type:'out', amount:1200, category:'Health', note:'Pharmacy', date:d(1)},
+    {id:7, type:'out', amount:4500, category:'Education', note:'Kids tuition fee', date:d(0)},
+  ];
+}
+
+async function loadEntries(){
+  try{
+    const raw = localStorage.getItem('ledger:entries');
+    entries = raw ? JSON.parse(raw) : seedData();
+  }catch(e){
+    entries = seedData();
+  }
+  render();
+}
+
+async function saveEntries(){
+  try{
+    localStorage.setItem('ledger:entries', JSON.stringify(entries));
+  }catch(e){
+    console.error('Storage error', e);
+  }
+}
+
+function populateCategories(selectedValue){
+  const sel = document.getElementById('inCategory');
+  const cats = currentType === 'out' ? EXPENSE_CATS : INCOME_CATS;
+  sel.innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
+  if(selectedValue && cats.includes(selectedValue)) sel.value = selectedValue;
+}
+
+function setType(type){
+  currentType = type;
+  document.getElementById('btnOut').classList.toggle('sel-out', type==='out');
+  document.getElementById('btnIn').classList.toggle('sel-in', type==='in');
+}
+
+document.getElementById('btnOut').onclick = () => { setType('out'); populateCategories(); };
+document.getElementById('btnIn').onclick = () => { setType('in'); populateCategories(); };
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+  };
+});
+
+function renderItemRows(){
+  const wrap = document.getElementById('itemRows');
+  wrap.innerHTML = `
+    <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Price</span><span></span></div>
+    ${currentItems.map((it, i) => `
+      <div class="item-row" data-i="${i}">
+        <input type="text" class="it-name" placeholder="e.g. Rice" value="${it.name || ''}">
+        <input type="number" class="it-qty" placeholder="1" value="${it.qty || ''}" inputmode="decimal">
+        <input type="number" class="it-price" placeholder="Rs" value="${it.price || ''}" inputmode="decimal">
+        <div class="item-remove" data-remove="${i}">✕</div>
+      </div>
+    `).join('')}
+  `;
+  wrap.querySelectorAll('.item-row').forEach(row => {
+    const i = Number(row.dataset.i);
+    row.querySelector('.it-name').oninput = (e) => { currentItems[i].name = e.target.value; };
+    row.querySelector('.it-qty').oninput = (e) => { currentItems[i].qty = parseFloat(e.target.value) || 0; updateItemsTotal(); };
+    row.querySelector('.it-price').oninput = (e) => { currentItems[i].price = parseFloat(e.target.value) || 0; updateItemsTotal(); };
+  });
+  wrap.querySelectorAll('[data-remove]').forEach(btn => {
+    btn.onclick = () => {
+      currentItems.splice(Number(btn.dataset.remove), 1);
+      renderItemRows();
+      updateItemsTotal();
+    };
+  });
+  updateItemsTotal();
+}
+
+function updateItemsTotal(){
+  const total = currentItems.reduce((s, it) => s + (Number(it.qty)||0) * (Number(it.price)||0), 0);
+  document.getElementById('itemsTotalDisplay').textContent = fmt(total);
+  if(currentItems.length > 0){
+    document.getElementById('inAmount').value = total || '';
+  }
+}
+
+document.getElementById('itemsToggle').onclick = () => {
+  const builder = document.getElementById('itemBuilder');
+  const opening = builder.style.display === 'none';
+  builder.style.display = opening ? 'block' : 'none';
+  if(opening && currentItems.length === 0){
+    currentItems.push({name:'', qty:1, price:0});
+    renderItemRows();
+  }
+};
+document.getElementById('addItemBtn').onclick = () => {
+  currentItems.push({name:'', qty:1, price:0});
+  renderItemRows();
+};
+
+function resetForm(){
+  editingId = null;
+  document.getElementById('formTitleText').textContent = 'New entry';
+  document.getElementById('cancelEdit').style.display = 'none';
+  document.getElementById('saveBtn').textContent = 'Save entry';
+  document.getElementById('inAmount').value = '';
+  document.getElementById('inNote').value = '';
+  currentItems = [];
+  document.getElementById('itemBuilder').style.display = 'none';
+  document.getElementById('itemRows').innerHTML = '';
+  setType('out');
+  populateCategories();
+}
+
+document.getElementById('cancelEdit').onclick = resetForm;
+
+document.getElementById('saveBtn').onclick = async () => {
+  const amount = parseFloat(document.getElementById('inAmount').value);
+  if(!amount || amount <= 0){ return; }
+  const category = document.getElementById('inCategory').value;
+  const note = document.getElementById('inNote').value.trim();
+  const items = currentItems.filter(it => it.name && it.name.trim());
+
+  if(editingId){
+    const idx = entries.findIndex(e => e.id === editingId);
+    if(idx > -1){
+      entries[idx] = { ...entries[idx], type: currentType, amount, category, note, items: items.length ? items : undefined };
+    }
+  } else {
+    entries.unshift({
+      id: Date.now(),
+      type: currentType,
+      amount, category, note,
+      items: items.length ? items : undefined,
+      date: new Date().toISOString()
+    });
+  }
+  await saveEntries();
+  resetForm();
+  render();
+  document.querySelector('[data-tab="history"]').click();
+};
+
+document.getElementById('resetLink').onclick = () => {
+  openOverlay(`
+    <div class="sheet-title">Reset entries</div>
+    <div class="sheet-entry">Choose how you'd like to reset the ledger.</div>
+    <button class="sheet-btn danger" id="clearAllBtn">🗑 &nbsp; Delete all entries</button>
+    <button class="sheet-btn" id="restoreDemoBtn">↺ &nbsp; Restore sample data</button>
+    <button class="sheet-btn cancel" id="resetCancelBtn">Cancel</button>
+  `);
+  document.getElementById('clearAllBtn').onclick = () => confirmClearAll();
+  document.getElementById('restoreDemoBtn').onclick = () => confirmRestoreDemo();
+  document.getElementById('resetCancelBtn').onclick = closeOverlay;
+};
+
+function confirmClearAll(){
+  openOverlay(`
+    <div class="sheet-title">Delete all entries?</div>
+    <div class="sheet-entry">This removes every income and expense entry. This can't be undone.</div>
+    <div class="confirm-row">
+      <button class="sheet-btn cancel" id="noBtn" style="flex:1;">Keep entries</button>
+      <button class="sheet-btn danger" id="yesBtn" style="flex:1;">Delete all</button>
+    </div>
+  `);
+  document.getElementById('noBtn').onclick = closeOverlay;
+  document.getElementById('yesBtn').onclick = async () => {
+    entries = [];
+    await saveEntries();
+    resetForm();
+    closeOverlay();
+    render();
+  };
+}
+
+function confirmRestoreDemo(){
+  openOverlay(`
+    <div class="sheet-title">Restore sample data?</div>
+    <div class="sheet-entry">This replaces your current entries with the original demo entries.</div>
+    <div class="confirm-row">
+      <button class="sheet-btn cancel" id="noBtn" style="flex:1;">Cancel</button>
+      <button class="sheet-btn danger" id="yesBtn" style="flex:1;">Restore</button>
+    </div>
+  `);
+  document.getElementById('noBtn').onclick = closeOverlay;
+  document.getElementById('yesBtn').onclick = async () => {
+    entries = seedData();
+    await saveEntries();
+    resetForm();
+    closeOverlay();
+    render();
+  };
+}
+
+function fmt(n){
+  return 'Rs ' + Math.round(n).toLocaleString('en-IN');
+}
+
+function openOverlay(html){
+  document.getElementById('sheet').innerHTML = html;
+  document.getElementById('overlay').classList.add('show');
+}
+function closeOverlay(){
+  document.getElementById('overlay').classList.remove('show');
+  pendingDeleteId = null;
+}
+document.getElementById('overlay').onclick = (e) => {
+  if(e.target.id === 'overlay') closeOverlay();
+};
+
+function openEntryActions(id){
+  const entry = entries.find(e => e.id === id);
+  if(!entry) return;
+  const itemsHtml = (entry.items && entry.items.length) ? `
+    <div class="item-summary">
+      ${entry.items.map(it => `<div class="row"><span>${it.name} × ${it.qty}</span><span>${fmt((it.qty||0)*(it.price||0))}</span></div>`).join('')}
+    </div>
+  ` : '';
+  openOverlay(`
+    <div class="sheet-title">${new Date(entry.date).toLocaleDateString('en-US',{weekday:'long', day:'numeric', month:'long'})}</div>
+    <div class="sheet-entry">${entry.category}${entry.note ? ' — ' + entry.note : ''}<br>
+      <b class="${entry.type}" style="color:${entry.type==='out' ? 'var(--red)' : 'var(--green)'}">${entry.type==='out'?'-':'+'}${fmt(entry.amount)}</b>
+    </div>
+    ${itemsHtml}
+    <button class="sheet-btn" id="editBtn">✎ &nbsp; Edit / rewrite entry</button>
+    <button class="sheet-btn danger" id="deleteBtn">🗑 &nbsp; Delete entry</button>
+    <button class="sheet-btn cancel" id="cancelBtn">Cancel</button>
+  `);
+  document.getElementById('editBtn').onclick = () => {
+    editingId = entry.id;
+    setType(entry.type);
+    populateCategories(entry.category);
+    document.getElementById('inAmount').value = entry.amount;
+    document.getElementById('inNote').value = entry.note || '';
+    document.getElementById('formTitleText').textContent = 'Editing entry';
+    document.getElementById('cancelEdit').style.display = 'inline';
+    document.getElementById('saveBtn').textContent = 'Update entry';
+    if(entry.items && entry.items.length){
+      currentItems = entry.items.map(it => ({...it}));
+      document.getElementById('itemBuilder').style.display = 'block';
+      renderItemRows();
+    } else {
+      currentItems = [];
+      document.getElementById('itemBuilder').style.display = 'none';
+      document.getElementById('itemRows').innerHTML = '';
+    }
+    closeOverlay();
+    document.querySelector('[data-tab="add"]').click();
+  };
+  document.getElementById('deleteBtn').onclick = () => confirmDelete(entry.id);
+  document.getElementById('cancelBtn').onclick = closeOverlay;
+}
+
+function confirmDelete(id){
+  const entry = entries.find(e => e.id === id);
+  openOverlay(`
+    <div class="sheet-title">Delete this entry?</div>
+    <div class="sheet-entry">${entry.category}${entry.note ? ' — ' + entry.note : ''}<br>
+      <b style="color:${entry.type==='out' ? 'var(--red)' : 'var(--green)'}">${entry.type==='out'?'-':'+'}${fmt(entry.amount)}</b>
+    </div>
+    <div class="confirm-row">
+      <button class="sheet-btn cancel" id="noBtn" style="flex:1;">Keep it</button>
+      <button class="sheet-btn danger" id="yesBtn" style="flex:1;">Delete</button>
+    </div>
+  `);
+  document.getElementById('noBtn').onclick = closeOverlay;
+  document.getElementById('yesBtn').onclick = async () => {
+    entries = entries.filter(e => e.id !== id);
+    await saveEntries();
+    closeOverlay();
+    if(editingId === id) resetForm();
+    render();
+  };
+}
+
+function render(){
+  const inTotal = entries.filter(e=>e.type==='in').reduce((s,e)=>s+e.amount,0);
+  const outTotal = entries.filter(e=>e.type==='out').reduce((s,e)=>s+e.amount,0);
+  document.getElementById('balanceDisplay').textContent = fmt(inTotal - outTotal);
+  document.getElementById('inTotal').textContent = fmt(inTotal).replace('Rs ','');
+  document.getElementById('outTotal').textContent = fmt(outTotal).replace('Rs ','');
+
+  const groups = {};
+  entries.slice().sort((a,b)=> new Date(b.date)-new Date(a.date)).forEach(e=>{
+    const day = new Date(e.date).toLocaleDateString('en-US',{weekday:'short', day:'numeric', month:'short'});
+    (groups[day] = groups[day] || []).push(e);
+  });
+  const histEl = document.getElementById('historyList');
+  if(entries.length === 0){
+    histEl.innerHTML = '<div class="empty-note">No entries yet. Add your first one from the Add tab.</div>';
+  } else {
+    histEl.innerHTML = Object.keys(groups).map(day => `
+      <div class="day-group">
+        <div class="day-label">${day}</div>
+        ${groups[day].map(e => `
+          <div class="entry" data-id="${e.id}">
+            <div class="entry-left">
+              <div class="entry-cat">${e.category}</div>
+              ${e.note ? `<div class="entry-note">${e.note}</div>` : ''}
+              ${e.items && e.items.length ? `<div class="entry-note">${e.items.length} item${e.items.length>1?'s':''} listed</div>` : ''}
+            </div>
+            <div class="entry-right">
+              <div class="entry-amt ${e.type}">${e.type==='out'?'-':'+'}${fmt(e.amount).replace('Rs ','')}</div>
+              <div class="chev">›</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `).join('');
+    histEl.querySelectorAll('.entry').forEach(row => {
+      row.onclick = () => openEntryActions(Number(row.dataset.id));
+    });
+  }
+
+  const byCat = {};
+  entries.filter(e=>e.type==='out').forEach(e=>{
+    byCat[e.category] = (byCat[e.category]||0) + e.amount;
+  });
+  const maxCat = Math.max(1, ...Object.values(byCat));
+  const catEl = document.getElementById('catList');
+  const catKeys = Object.keys(byCat).sort((a,b)=>byCat[b]-byCat[a]);
+  if(catKeys.length === 0){
+    catEl.innerHTML = '<div class="empty-note">No expenses recorded yet.</div>';
+  } else {
+    catEl.innerHTML = catKeys.map(cat => `
+      <div class="cat-row">
+        <div class="cat-top"><span>${cat}</span><span class="cat-amt">${fmt(byCat[cat])}</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${(byCat[cat]/maxCat*100).toFixed(0)}%"></div></div>
+      </div>
+    `).join('');
+  }
+
+  renderPassbook();
+}
+
+function renderPassbook(){
+  const pbEl = document.getElementById('passbookList');
+  if(entries.length === 0){
+    pbEl.innerHTML = '<div class="empty-note">No entries yet. Your passbook will fill in as you add them.</div>';
+    return;
+  }
+  // chronological sequence, oldest first, with running balance
+  const ordered = entries.slice().sort((a,b) => new Date(a.date) - new Date(b.date) || a.id - b.id);
+  let running = 0;
+  const rows = ordered.map(e => {
+    running += e.type === 'in' ? e.amount : -e.amount;
+    const dateStr = new Date(e.date).toLocaleDateString('en-US',{day:'numeric', month:'short', year:'numeric'});
+    const desc = e.category + (e.note ? ' — ' + e.note : '') + (e.items && e.items.length ? ` (${e.items.length} items)` : '');
+    return `
+      <div class="pb-row">
+        <div class="pb-left">
+          <div class="pb-date">${dateStr}</div>
+          <div class="pb-desc">${desc}</div>
+        </div>
+        <div class="pb-right">
+          <div class="pb-amt ${e.type}">${e.type==='out'?'-':'+'}${fmt(e.amount).replace('Rs ','')}</div>
+          <div class="pb-balance">${fmt(running)}</div>
+        </div>
+      </div>
+    `;
+  });
+  // show most recent (highest running balance point) at top for easy reading, still true chronological sequence underneath
+  pbEl.innerHTML = rows.reverse().join('');
+}
+
+populateCategories();
+loadEntries();
+
+try{
+  const lic = JSON.parse(localStorage.getItem('gl_license') || 'null');
+  if(lic && lic.name){
+    const tagEl = document.querySelector('.tagline');
+    if(tagEl) tagEl.textContent = 'licensed to ' + lic.name;
+  }
+}catch(e){}
+
+/* ---------- Installable app support (Android + iPhone) ---------- */
+// Build a manifest so Android shows "Add to Home Screen / Install app"
+try{
+  const manifest = {
+    name: "Ghar Ledger — Home Accounts",
+    short_name: "Ghar Ledger",
+    start_url: ".",
+    display: "standalone",
+    background_color: "#33202B",
+    theme_color: "#33202B",
+    icons: [{ src: makeIconDataUrl(), sizes: "512x512", type: "image/png" }]
+  };
+  const manifestBlob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+  const manifestUrl = URL.createObjectURL(manifestBlob);
+  const link = document.createElement('link');
+  link.rel = 'manifest';
+  link.href = manifestUrl;
+  document.head.appendChild(link);
+
+  const appleIcon = document.createElement('link');
+  appleIcon.rel = 'apple-touch-icon';
+  appleIcon.href = makeIconDataUrl();
+  document.head.appendChild(appleIcon);
+}catch(e){ console.warn('Manifest setup skipped', e); }
+
+// Draws a simple maroon/gold "GL" icon on a canvas and returns a PNG data URL
+function makeIconDataUrl(){
+  const c = document.createElement('canvas');
+  c.width = 512; c.height = 512;
+  const ctx = c.getContext('2d');
+  const g = ctx.createLinearGradient(0,0,512,512);
+  g.addColorStop(0, '#442A38'); g.addColorStop(1, '#22151C');
+  ctx.fillStyle = g; ctx.fillRect(0,0,512,512);
+  ctx.strokeStyle = 'rgba(184,134,46,0.6)'; ctx.lineWidth = 6;
+  ctx.strokeRect(3,3,506,506);
+  ctx.fillStyle = '#B8862E';
+  ctx.font = 'bold 220px Georgia, serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText('G', 256, 270);
+  return c.toDataURL('image/png');
+}
+
+// Register an offline-cache service worker only when hosted (not needed/available on file://)
+if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')){
+  const swCode = `
+    const CACHE = 'ghar-ledger-v1';
+    self.addEventListener('install', e => {
+      e.waitUntil(caches.open(CACHE).then(c => c.add(self.registration.scope)));
+      self.skipWaiting();
+    });
+    self.addEventListener('activate', e => self.clients.claim());
+    self.addEventListener('fetch', e => {
+      e.respondWith(
+        caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
+          const resClone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, resClone));
+          return res;
+        }).catch(() => cached))
+      );
+    });
+  `;
+  try{
+    const swBlob = new Blob([swCode], {type:'text/javascript'});
+    const swUrl = URL.createObjectURL(swBlob);
+    navigator.serviceWorker.register(swUrl).catch(err => console.warn('SW registration failed', err));
+  }catch(e){ console.warn('Service worker setup skipped', e); }
+}
+
+</script>
+</body>
+</html>

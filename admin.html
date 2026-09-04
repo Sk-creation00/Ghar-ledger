@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#33202B">
+<title>Ghar Ledger — Sales Admin</title>
+<style>
+  :root{
+    --cover: #33202B; --cover-dark: #22151C;
+    --paper: #F4EEDC; --paper-raised: #FFFDF6; --line: #DCD0A9;
+    --ink: #241F1A; --ink-soft: #7A6E58;
+    --red: #9C3B3B; --green: #3D6B4C; --gold: #B8862E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family: 'Iowan Old Style', Georgia, serif;
+    background: radial-gradient(circle at 20% 0%, #442A38, var(--cover) 55%);
+    color: var(--ink); min-height:100vh; display:flex; justify-content:center;
+    padding: 20px 12px 50px;
+  }
+  #app{ width:100%; max-width:460px; }
+  #lockScreen{ text-align:center; color:var(--paper); padding-top:80px; }
+  #lockScreen .lock-title{ font-size:20px; margin-bottom:6px; }
+  #lockScreen .lock-title em{ color:#C9A868; font-style:normal; }
+  #lockScreen input{
+    width:200px; text-align:center; letter-spacing:0.3em; font-size:20px;
+    padding:12px; border-radius:8px; border:1px solid var(--line); margin-top:20px;
+    background: var(--paper-raised); font-family:'Courier New',monospace;
+  }
+  #lockScreen .unlock-btn{
+    margin-top:14px; background:var(--gold); color:var(--cover-dark); border:none;
+    padding:11px 24px; border-radius:8px; font-size:14px; cursor:pointer; font-family:inherit; font-weight:bold;
+  }
+  #lockScreen .err{ color:#E39B9B; font-size:12px; margin-top:10px; min-height:16px; }
+
+  #main{ display:none; }
+  .header{ color:var(--paper); text-align:center; margin-bottom:18px; }
+  .header .t{ font-size:20px; }
+  .header .t em{ color:#C9A868; font-style:normal; }
+  .header .sub{ font-size:11.5px; color:#B8AF9A; margin-top:2px; }
+
+  .card{
+    background: var(--paper); border-radius:14px; padding:18px;
+    box-shadow: 0 14px 32px rgba(0,0,0,0.35); margin-bottom:16px;
+  }
+  .card-title{ font-size:13px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px; }
+  .field{ margin-bottom:12px; }
+  .field label{ display:block; font-size:10.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px; }
+  .field input{
+    width:100%; padding:10px 11px; font-size:15px; background:var(--paper-raised);
+    border:1px solid var(--line); border-radius:7px; font-family:inherit; color:var(--ink);
+  }
+  .btn{
+    width:100%; padding:12px; background:var(--cover); color:var(--paper); border:none;
+    border-radius:8px; font-size:14.5px; cursor:pointer; font-family:inherit; margin-top:4px;
+  }
+  .btn.secondary{ background: var(--paper-raised); color:var(--cover); border:1px solid var(--line); }
+  .btn-row{ display:flex; gap:8px; margin-top:4px; }
+  .btn-row .btn{ margin-top:0; }
+
+  .stats-row{ display:flex; gap:10px; margin-bottom:16px; }
+  .stat{ flex:1; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:10px 12px; color:var(--paper); }
+  .stat .lbl{ font-size:10px; color:#B8AF9A; text-transform:uppercase; letter-spacing:0.05em; }
+  .stat .val{ font-family:'Courier New',monospace; font-size:17px; margin-top:3px; }
+
+  .record{
+    background: var(--paper-raised); border:1px solid var(--line); border-radius:10px;
+    padding:12px 14px; margin-bottom:10px;
+  }
+  .record-top{ display:flex; justify-content:space-between; align-items:flex-start; }
+  .record-name{ font-size:14.5px; }
+  .record-date{ font-size:10.5px; color:var(--ink-soft); margin-top:2px; }
+  .record-amt{ font-family:'Courier New',monospace; font-size:13.5px; color:var(--green); font-weight:bold; }
+  .record-key{
+    font-family:'Courier New',monospace; font-size:12px; background:rgba(184,134,46,0.1);
+    color:var(--gold); padding:4px 8px; border-radius:5px; display:inline-block; margin-top:8px; letter-spacing:0.03em;
+  }
+  .record-status{ font-size:10px; padding:2px 7px; border-radius:10px; font-weight:bold; }
+  .record-status.active{ background: rgba(61,107,76,0.12); color:var(--green); }
+  .record-status.revoked{ background: rgba(156,59,59,0.12); color:var(--red); }
+  .record-actions{ display:flex; gap:6px; margin-top:9px; }
+  .mini-btn{
+    font-size:11px; padding:6px 10px; border-radius:6px; border:1px solid var(--line);
+    background:var(--paper-raised); color:var(--ink-soft); cursor:pointer; font-family:inherit;
+  }
+  .empty{ text-align:center; color:var(--ink-soft); font-size:13px; padding:24px 10px; }
+
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    background: var(--cover-dark); color:var(--paper); padding:10px 18px; border-radius:20px;
+    font-size:12.5px; opacity:0; pointer-events:none; transition: opacity .2s;
+    max-width:85%; text-align:center;
+  }
+  .toast.show{ opacity:1; }
+
+  .settings-note{ font-size:11px; color:var(--ink-soft); margin-top:-4px; margin-bottom:12px; line-height:1.5; }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div id="lockScreen">
+    <div class="lock-title"><em>Ghar Ledger</em><br>Sales Admin</div>
+    <input type="password" id="pinInput" placeholder="••••" maxlength="6" inputmode="numeric">
+    <div><button class="unlock-btn" id="unlockBtn">Unlock</button></div>
+    <div class="err" id="lockErr"></div>
+  </div>
+
+  <div id="main">
+    <div class="header">
+      <div class="t"><em>Ghar Ledger</em> — Sales</div>
+      <div class="sub">Records saved on this device only</div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat"><div class="lbl">Clients</div><div class="val" id="statCount">0</div></div>
+      <div class="stat"><div class="lbl">Total Sales</div><div class="val" id="statTotal">Rs 0</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">App link (set once)</div>
+      <div class="field">
+        <input type="text" id="baseUrl" placeholder="https://ghar-ledger.netlify.app/">
+      </div>
+      <div class="settings-note">This is your deployed Netlify link for the app. Each client's key gets appended to it automatically.</div>
+      <div class="field"><label>Admin secret</label><input type="text" id="adminSecret" placeholder="paste your admin secret"></div>
+      <div class="settings-note">Keep this private — it lets this tool create and manage real licenses on the server. Never share this file with clients.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Add new sale</div>
+      <div class="field"><label>Client name</label><input type="text" id="cName" placeholder="e.g. Rahim Traders"></div>
+      <div class="field"><label>Phone (optional)</label><input type="text" id="cPhone" placeholder="03XX-XXXXXXX"></div>
+      <div class="field"><label>Amount paid (Rs)</label><input type="number" id="cAmount" placeholder="0"></div>
+      <div class="field"><label>Notes (optional)</label><input type="text" id="cNotes" placeholder="e.g. paid via Easypaisa"></div>
+      <button class="btn" id="addBtn">Generate license &amp; save record</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Client records</div>
+      <div id="recordList"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn secondary" id="exportBtn">Export backup (JSON)</button>
+      <button class="btn secondary" id="importBtn">Import backup</button>
+    </div>
+    <input type="file" id="importFile" accept=".json" style="display:none;">
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PIN = "1122";
+let records = [];
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+document.getElementById('unlockBtn').onclick = tryUnlock;
+document.getElementById('pinInput').addEventListener('keydown', e => { if(e.key === 'Enter') tryUnlock(); });
+function tryUnlock(){
+  const val = document.getElementById('pinInput').value;
+  if(val === PIN){
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('main').style.display = 'block';
+    init();
+  } else {
+    document.getElementById('lockErr').textContent = 'Incorrect PIN';
+    document.getElementById('pinInput').value = '';
+  }
+}
+
+function init(){
+  loadRecordsLocalBackup();
+  loadBaseUrl();
+  render();
+  fetchRecords();
+}
+
+function loadBaseUrl(){
+  const savedUrl = localStorage.getItem('gl_base_url');
+  document.getElementById('baseUrl').value = savedUrl || 'https://ghar-ledger.netlify.app/';
+  const savedSecret = localStorage.getItem('gl_admin_secret');
+  document.getElementById('adminSecret').value = savedSecret || '';
+}
+document.getElementById('baseUrl').addEventListener('change', e => {
+  localStorage.setItem('gl_base_url', e.target.value.trim());
+  render();
+});
+document.getElementById('adminSecret').addEventListener('change', e => {
+  localStorage.setItem('gl_admin_secret', e.target.value.trim());
+});
+
+function apiBase(){
+  const val = document.getElementById('baseUrl').value.trim() || 'https://ghar-ledger.netlify.app/';
+  return val.replace(/\/+$/, '');
+}
+function adminSecret(){
+  return document.getElementById('adminSecret').value.trim();
+}
+async function callApi(action, method, body){
+  const url = `${apiBase()}/api/license?action=${action}`;
+  const res = await fetch(url, {
+    method,
+    headers: { 'content-type': 'application/json', 'x-admin-secret': adminSecret() },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  return res.json();
+}
+
+async function fetchRecords(){
+  if(!adminSecret()){ toast('Enter your admin secret first'); return; }
+  try{
+    const data = await callApi('list', 'GET');
+    if(data.ok){
+      records = data.records.filter(Boolean);
+      saveRecordsLocalBackup();
+      render();
+    } else {
+      toast('Could not load records — check admin secret');
+    }
+  }catch(e){
+    toast('No internet — showing last saved backup');
+    loadRecordsLocalBackup();
+    render();
+  }
+}
+
+function saveRecordsLocalBackup(){
+  localStorage.setItem('gl_client_records', JSON.stringify(records));
+}
+function loadRecordsLocalBackup(){
+  try{
+    const raw = localStorage.getItem('gl_client_records');
+    records = raw ? JSON.parse(raw) : [];
+  }catch(e){ records = []; }
+}
+
+function genKey(){
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const part = () => Array.from({length:4}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
+  return `GL-${part()}-${part()}`;
+}
+
+document.getElementById('addBtn').onclick = async () => {
+  const name = document.getElementById('cName').value.trim();
+  if(!name){ toast('Client name is required'); return; }
+  if(!adminSecret()){ toast('Enter your admin secret first'); return; }
+  const phone = document.getElementById('cPhone').value.trim();
+  const amount = parseFloat(document.getElementById('cAmount').value) || 0;
+  const notes = document.getElementById('cNotes').value.trim();
+  const addBtn = document.getElementById('addBtn');
+  addBtn.textContent = 'Generating…';
+  try{
+    const data = await callApi('create', 'POST', { name, phone, amount, notes });
+    if(data.ok){
+      records.unshift(data.record);
+      saveRecordsLocalBackup();
+      document.getElementById('cName').value = '';
+      document.getElementById('cPhone').value = '';
+      document.getElementById('cAmount').value = '';
+      document.getElementById('cNotes').value = '';
+      render();
+      toast('License generated: ' + data.record.key);
+    } else {
+      toast('Failed — check admin secret / internet');
+    }
+  }catch(e){
+    toast('No internet — cannot create a real license right now');
+  }
+  addBtn.textContent = 'Generate license & save record';
+};
+
+function buildLink(record){
+  const base = (document.getElementById('baseUrl').value.trim() || 'https://ghar-ledger.netlify.app/');
+  const sep = base.includes('?') ? '&' : '?';
+  return `${base}${sep}key=${encodeURIComponent(record.key)}`;
+}
+
+function copyLink(key){
+  const record = records.find(r => r.key === key);
+  const link = buildLink(record);
+  navigator.clipboard.writeText(link).then(() => toast('Link copied — send it to the client'))
+    .catch(() => toast(link));
+}
+
+async function toggleStatus(key){
+  const data = await callApi('revoke', 'POST', { key });
+  if(data.ok){
+    const idx = records.findIndex(r => r.key === key);
+    if(idx > -1) records[idx] = data.record;
+    saveRecordsLocalBackup();
+    render();
+    toast(data.record.status === 'active' ? 'Reactivated' : 'Revoked — that device is now blocked');
+  } else {
+    toast('Failed — check internet / admin secret');
+  }
+}
+
+async function resetDevice(key){
+  if(!confirm('Allow this key to activate on a new device? (client switched phones)')) return;
+  const data = await callApi('reset-device', 'POST', { key });
+  if(data.ok){
+    const idx = records.findIndex(r => r.key === key);
+    if(idx > -1) records[idx] = data.record;
+    saveRecordsLocalBackup();
+    render();
+    toast('Device reset — key can activate on a new phone now');
+  } else {
+    toast('Failed — check internet / admin secret');
+  }
+}
+
+async function deleteRecord(key){
+  if(!confirm('Delete this record permanently?')) return;
+  const data = await callApi('delete', 'POST', { key });
+  if(data.ok){
+    records = records.filter(r => r.key !== key);
+    saveRecordsLocalBackup();
+    render();
+    toast('Deleted');
+  } else {
+    toast('Failed — check internet / admin secret');
+  }
+}
+
+function render(){
+  document.getElementById('statCount').textContent = records.length;
+  const total = records.reduce((s,r) => s + (r.amount||0), 0);
+  document.getElementById('statTotal').textContent = 'Rs ' + Math.round(total).toLocaleString('en-IN');
+
+  const listEl = document.getElementById('recordList');
+  if(records.length === 0){
+    listEl.innerHTML = '<div class="empty">No sales recorded yet. Add your first client above.</div>';
+    return;
+  }
+  listEl.innerHTML = records.map(r => `
+    <div class="record">
+      <div class="record-top">
+        <div>
+          <div class="record-name">${r.name}</div>
+          <div class="record-date">${new Date(r.date).toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'})}${r.phone ? ' · ' + r.phone : ''}</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="record-amt">Rs ${Math.round(r.amount).toLocaleString('en-IN')}</div>
+          <div class="record-status ${r.status}" style="margin-top:6px;">${r.status === 'active' ? 'Active' : 'Revoked'}</div>
+        </div>
+      </div>
+      ${r.notes ? `<div class="record-date" style="margin-top:6px;">${r.notes}</div>` : ''}
+      <div class="record-key">${r.key}</div>
+      <div class="record-date" style="margin-top:6px;">${r.activatedDevice ? '📱 Activated on a device' : '⏳ Not yet activated'}</div>
+      <div class="record-actions">
+        <div class="mini-btn" onclick="copyLink('${r.key}')">Copy link</div>
+        <div class="mini-btn" onclick="toggleStatus('${r.key}')">${r.status === 'active' ? 'Revoke' : 'Reactivate'}</div>
+        ${r.activatedDevice ? `<div class="mini-btn" onclick="resetDevice('${r.key}')">Reset device</div>` : ''}
+        <div class="mini-btn" onclick="deleteRecord('${r.key}')" style="color:var(--red);">Delete</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('exportBtn').onclick = () => {
+  const blob = new Blob([JSON.stringify(records, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `ghar-ledger-sales-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  toast('Backup downloaded');
+};
+
+document.getElementById('importBtn').onclick = () => document.getElementById('importFile').click();
+document.getElementById('importFile').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const imported = JSON.parse(reader.result);
+      if(Array.isArray(imported)){
+        records = imported;
+        saveRecords();
+        render();
+        toast('Backup imported');
+      }
+    }catch(err){ toast('Invalid backup file'); }
+  };
+  reader.readAsText(file);
+});
+</script>
+</body>
+</html>
