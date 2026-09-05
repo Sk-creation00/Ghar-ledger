@@ -1,0 +1,16 @@
+{
+  "name": "Ghar Ledger — Home Accounts",
+  "short_name": "Ghar Ledger",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#33202B",
+  "theme_color": "#33202B",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
