@@ -920,7 +920,10 @@ if('serviceWorker' in navigator && (location.protocol === 'https:' || location.h
     navigator.serviceWorker.register(swUrl).catch(err => console.warn('SW registration failed', err));
   }catch(e){ console.warn('Service worker setup skipped', e); }
 }
-
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
+  navigator.serviceWorker.register('/sw.js').catch(()=>{});
+  }
 </script>
 </body>
 </html>
