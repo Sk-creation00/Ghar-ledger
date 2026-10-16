@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">
-<meta name="theme-color" content="#33202B">
+<meta name="theme-color" content="#6C4CE0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,26 +12,39 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cover: #33202B;
-    --cover-dark: #22151C;
-    --paper: #F4EEDC;
-    --paper-raised: #FFFDF6;
-    --line: #DCD0A9;
-    --ink: #241F1A;
-    --ink-soft: #7A6E58;
-    --red: #9C3B3B;
-    --red-soft: rgba(156,59,59,0.10);
-    --green: #3D6B4C;
-    --green-soft: rgba(61,107,76,0.10);
-    --gold: #B8862E;
+    --cover1: #6C4CE0;
+    --cover2: #00BFA6;
+    --cover-dark: #5539C7;
+    --paper: #FFFFFF;
+    --paper-raised: #FBFAFF;
+    --line: #E7E3FA;
+    --ink: #241F3A;
+    --ink-soft: #7A7594;
+    --red: #FF5A5F;
+    --red-soft: rgba(255,90,95,0.12);
+    --green: #12B76A;
+    --green-soft: rgba(18,183,106,0.12);
+    --gold: #FFB020;
+    --purple: #6C4CE0;
+    --teal: #00BFA6;
+    --pink: #FF6FA5;
+    --cover: #6C4CE0;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html,body{ height:100%; }
   body{
     font-family: 'Iowan Old Style', Georgia, 'Times New Roman', serif;
-    background: radial-gradient(circle at 20% 0%, #442A38, var(--cover) 55%);
+    background:
+      radial-gradient(circle at 12% 8%, rgba(255,111,165,0.35), transparent 40%),
+      radial-gradient(circle at 88% 12%, rgba(0,191,166,0.30), transparent 42%),
+      radial-gradient(circle at 50% 95%, rgba(255,176,32,0.25), transparent 45%),
+      linear-gradient(160deg, #FFF6E9, #EFF3FF 60%, #EAFBF6);
+    background-attachment: fixed;
     color: var(--ink);
     min-height:100vh;
     display:flex;
@@ -43,73 +56,77 @@
 
   /* ---------- Cover ---------- */
   .cover{
-    background: linear-gradient(155deg, var(--cover), var(--cover-dark));
-    border-radius: 16px 16px 0 0;
-    padding: 24px 22px 24px;
-    color: var(--paper);
+    background: linear-gradient(135deg, var(--cover1), var(--teal));
+    border-radius: 22px 22px 0 0;
+    padding: 26px 22px 26px;
+    color: #fff;
     position:relative;
     overflow:hidden;
-    box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset;
   }
   .cover::before{
     content:"";
     position:absolute; inset:0;
-    background: repeating-linear-gradient(180deg, transparent 0 27px, rgba(255,255,255,0.025) 27px 28px);
+    background-image: radial-gradient(rgba(255,255,255,0.16) 2px, transparent 2.5px);
+    background-size: 22px 22px;
     pointer-events:none;
   }
   .cover::after{
     content:"";
-    position:absolute; left:16px; top:0; bottom:0; width:1px;
-    background: rgba(184,134,46,0.55);
+    position:absolute; right:-40px; top:-40px; width:150px; height:150px; border-radius:50%;
+    background: rgba(255,176,32,0.35); filter: blur(2px);
   }
-  .brand-row{ display:flex; align-items:baseline; justify-content:space-between; }
-  .brand{ font-size: 20px; letter-spacing:0.01em; }
-  .brand em{ font-style:normal; color:#C9A868; }
-  .tagline{ font-size: 11px; color: #B8AF9A; margin-top:2px; letter-spacing:0.03em; }
+  .brand-row{ display:flex; align-items:baseline; justify-content:space-between; position:relative; z-index:1; }
+  .brand{ font-size: 21px; letter-spacing:0.01em; }
+  .brand em{ font-style:normal; color:#FFE29A; }
+  .tagline{ font-size: 11.5px; color: rgba(255,255,255,0.85); margin-top:2px; letter-spacing:0.03em; position:relative; z-index:1; }
 
-  .balance-block{ margin-top: 22px; }
-  .balance-label{ font-size:11.5px; color:#C9BFA0; text-transform:uppercase; letter-spacing:0.08em; }
+  .balance-block{ margin-top: 22px; position:relative; z-index:1; }
+  .balance-label{ font-size:11.5px; color:rgba(255,255,255,0.8); text-transform:uppercase; letter-spacing:0.08em; }
   .balance{
     font-family: 'Courier New', Courier, monospace;
-    font-size: 38px;
+    font-size: 40px;
     font-weight:700;
     letter-spacing: -0.015em;
     margin-top: 4px;
   }
-  .period{ font-size:11.5px; color:#C9A868; margin-top:2px; }
+  .period{ font-size:11.5px; color:#FFE29A; margin-top:2px; }
 
   .sub-stats{
-    display:flex; gap:10px; margin-top:18px;
+    display:flex; gap:10px; margin-top:18px; position:relative; z-index:1;
   }
   .stat-pill{
-    flex:1; background: rgba(255,255,255,0.05); border-radius:10px;
-    padding: 9px 12px; border: 1px solid rgba(255,255,255,0.07);
+    flex:1; border-radius:14px;
+    padding: 13px 14px; border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.15);
   }
-  .stat-pill .lbl{ font-size:10.5px; color:#B8AF9A; text-transform:uppercase; letter-spacing:0.06em;}
-  .stat-pill .val{ font-family:'Courier New', monospace; font-size:16px; margin-top:3px; }
-  .stat-pill.in .val{ color:#8FC2A2; }
-  .stat-pill.out .val{ color:#DE9C9C; }
+  .stat-pill.in{ background: rgba(18,183,106,0.3); }
+  .stat-pill.out{ background: rgba(255,90,95,0.3); }
+  .stat-pill .lbl{ font-size:10.5px; color:rgba(255,255,255,0.9); text-transform:uppercase; letter-spacing:0.07em; font-weight:700; }
+  .stat-pill .val{ font-family:'Courier New', monospace; font-size:18px; margin-top:3px; font-weight:800; color:#fff; }
 
   /* ---------- Page ---------- */
   .page{
     background: var(--paper);
-    border-radius: 0 0 16px 16px;
-    box-shadow: 0 18px 40px rgba(0,0,0,0.4);
+    border-radius: 0 0 22px 22px;
+    box-shadow: 0 24px 50px rgba(108,76,224,0.26), 0 2px 8px rgba(0,0,0,0.06);
   }
 
   .tabs{
     display:flex;
-    border-bottom: 1px solid var(--line);
-    padding: 0 16px;
+    gap:4px;
+    padding: 10px 10px;
+    background: var(--paper-raised);
   }
   .tab{
-    flex:1; text-align:center; padding: 14px 2px 12px;
-    font-size: 12px; color: var(--ink-soft);
-    cursor:pointer; border-bottom: 2px solid transparent;
-    background:none; border-left:none; border-right:none; border-top:none;
-    font-family: inherit; transition: color .15s;
+    flex:1; text-align:center; padding: 13px 2px;
+    font-size: 12.5px; color: var(--ink-soft);
+    cursor:pointer; border-radius: 12px; border: none;
+    background:none; font-family: inherit; font-weight:800;
+    transition: all .15s; letter-spacing:0.01em;
   }
-  .tab.active{ color: var(--cover); border-bottom-color: var(--gold); font-weight:bold; }
+  .tab.active{ color: #fff; background: linear-gradient(135deg, var(--purple), var(--teal)); box-shadow: 0 6px 16px rgba(108,76,224,0.4), inset 0 1px 0 rgba(255,255,255,0.3); }
+  .tab:active{ transform: scale(0.96); }
 
   .panel{ display:none; padding: 20px 20px 10px; animation: fadein .18s ease; }
   .panel.active{ display:block; }
@@ -119,55 +136,60 @@
   .form-title{ font-size:14px; color:var(--ink-soft); margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;}
   .form-title .cancel-edit{ font-size:12px; color:var(--red); cursor:pointer; text-decoration:underline; }
 
-  .field{ margin-bottom: 15px; }
+  .field{ margin-bottom: 16px; }
   .field label{
-    display:block; font-size: 10.5px; color: var(--ink-soft);
-    text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px;
+    display:block; font-size: 11px; color: var(--ink-soft);
+    text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 7px;
+    font-weight:700;
   }
   .field input, .field select{
-    width:100%; padding: 11px 12px; font-size: 16px;
-    background: var(--paper-raised); border: 1px solid var(--line);
-    border-radius: 8px; font-family: inherit; color: var(--ink);
+    width:100%; padding: 15px 14px; font-size: 17px;
+    background: var(--paper-raised); border: 2px solid var(--line);
+    border-radius: 13px; font-family: inherit; color: var(--ink); font-weight:600;
     -webkit-appearance: none; appearance: none;
   }
-  .field input:focus, .field select:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+  .field input:focus, .field select:focus{ outline:none; border-color: var(--purple); box-shadow: 0 0 0 4px rgba(108,76,224,0.15); }
 
-  .type-toggle{ display:flex; gap:8px; margin-bottom:16px; }
+  .type-toggle{ display:flex; gap:10px; margin-bottom:18px; }
   .type-btn{
-    flex:1; padding:11px; text-align:center; border-radius:8px;
-    border:1px solid var(--line); cursor:pointer; font-size:14px;
+    flex:1; padding:17px; text-align:center; border-radius:14px;
+    border:2px solid var(--line); cursor:pointer; font-size:16px; font-weight:800;
     background: var(--paper-raised); color:var(--ink-soft); transition: all .12s;
+    letter-spacing:0.01em;
   }
-  .type-btn.sel-out{ background: var(--red-soft); border-color: var(--red); color: var(--red); font-weight:bold;}
-  .type-btn.sel-in{ background: var(--green-soft); border-color: var(--green); color: var(--green); font-weight:bold;}
+  .type-btn.sel-out{ background: linear-gradient(135deg, var(--red), #FF8A8E); border-color: var(--red); color: #fff; box-shadow: 0 8px 20px rgba(255,90,95,0.4), inset 0 1px 0 rgba(255,255,255,0.35);}
+  .type-btn.sel-in{ background: linear-gradient(135deg, var(--green), #4FE3A0); border-color: var(--green); color: #fff; box-shadow: 0 8px 20px rgba(18,183,106,0.4), inset 0 1px 0 rgba(255,255,255,0.35);}
+  .type-btn:active{ transform: scale(0.97); }
 
   .save-btn{
-    width:100%; padding: 14px; background: var(--cover); color: var(--paper);
-    border:none; border-radius:9px; font-size:15px; cursor:pointer;
-    font-family: inherit; margin-top: 6px; letter-spacing:0.01em;
+    width:100%; padding: 19px; background: linear-gradient(135deg, var(--purple), var(--teal)); color: #fff;
+    border:none; border-radius:16px; font-size:17.5px; font-weight:800; cursor:pointer;
+    font-family: inherit; margin-top: 8px; letter-spacing:0.02em;
+    box-shadow: 0 10px 24px rgba(108,76,224,0.4), inset 0 1px 0 rgba(255,255,255,0.35);
+    text-transform: uppercase;
   }
-  .save-btn:active{ background: var(--cover-dark); }
+  .save-btn:active{ transform: scale(0.98); }
 
   /* ---------- Item builder (grocery items with quantity) ---------- */
   .items-toggle{
-    font-size: 12.5px; color: var(--gold); cursor:pointer; margin: -4px 0 14px;
-    text-decoration: underline; display:inline-block;
+    font-size: 13px; color: var(--purple); cursor:pointer; margin: -4px 0 16px;
+    text-decoration: underline; display:inline-block; font-weight:700;
   }
   .item-builder{
-    background: rgba(184,134,46,0.06); border: 1px solid var(--line);
-    border-radius: 10px; padding: 12px; margin-bottom: 14px;
+    background: rgba(108,76,224,0.06); border: 2px solid var(--line);
+    border-radius: 14px; padding: 14px; margin-bottom: 16px;
   }
   .item-row{
     display:grid; grid-template-columns: 1fr 52px 70px 26px;
-    gap: 6px; margin-bottom: 8px; align-items:center;
+    gap: 8px; margin-bottom: 10px; align-items:center;
   }
   .item-row input{
-    padding: 8px 9px; font-size: 16px; background: var(--paper-raised);
-    border: 1px solid var(--line); border-radius: 6px; font-family:inherit; color:var(--ink); width:100%;
+    padding: 10px 10px; font-size: 16px; background: var(--paper-raised);
+    border: 2px solid var(--line); border-radius: 10px; font-family:inherit; color:var(--ink); width:100%;
     -webkit-appearance: none; appearance: none;
   }
   .item-row .item-remove{
-    color: var(--red); text-align:center; cursor:pointer; font-size:16px; line-height:1;
+    color: var(--red); text-align:center; cursor:pointer; font-size:18px; line-height:1;
   }
   .item-row-labels{
     display:grid; grid-template-columns: 1fr 52px 70px 26px; gap:6px;
@@ -175,11 +197,12 @@
     margin-bottom: 5px;
   }
   .add-item-btn{
-    font-size: 12.5px; color: var(--cover); cursor:pointer; text-align:center;
-    padding: 7px; border: 1px dashed var(--line); border-radius: 7px; margin-top: 2px;
+    font-size: 13px; color: var(--purple); cursor:pointer; text-align:center; font-weight:800;
+    padding: 11px; border: 2px dashed var(--purple); border-radius: 12px; margin-top: 2px;
   }
+  .add-item-btn:active{ transform: scale(0.97); }
   .items-total-row{
-    font-size: 12.5px; color: var(--ink-soft); text-align:right; margin-top: 10px;
+    font-size: 13px; color: var(--ink-soft); text-align:right; margin-top: 10px;
   }
   .items-total-row b{ font-family:'Courier New', monospace; color: var(--ink); }
   .item-summary{ font-size: 11px; color: var(--ink-soft); margin-top: 8px; line-height:1.6; }
@@ -188,110 +211,216 @@
   /* ---------- Passbook ---------- */
   .pb-head-row{
     display:flex; justify-content:space-between; font-size:10px; color:var(--ink-soft);
-    text-transform:uppercase; letter-spacing:0.06em; padding-bottom:8px; border-bottom:1px solid var(--line); margin-bottom:6px;
+    text-transform:uppercase; letter-spacing:0.06em; padding-bottom:8px; border-bottom:2px solid var(--line); margin-bottom:6px;
   }
   .pb-row{
     display:flex; justify-content:space-between; align-items:flex-start;
-    padding: 9px 2px; border-bottom: 1px dashed var(--line); font-size:12.5px;
+    padding: 11px 4px; border-bottom: 1px dashed var(--line); font-size:12.5px; border-radius:8px;
   }
   .pb-left{ display:flex; flex-direction:column; max-width:62%; }
   .pb-date{ font-size:10px; color:var(--ink-soft); }
   .pb-desc{ margin-top:1px; }
   .pb-right{ text-align:right; }
-  .pb-amt{ font-family:'Courier New', monospace; font-size:12.5px; }
+  .pb-amt{ font-family:'Courier New', monospace; font-size:12.5px; font-weight:bold; }
   .pb-amt.out{ color: var(--red); }
   .pb-amt.in{ color: var(--green); }
-  .pb-balance{ font-family:'Courier New', monospace; font-size:13px; font-weight:bold; margin-top:2px; }
+  .pb-balance{ font-family:'Courier New', monospace; font-size:13px; font-weight:bold; margin-top:2px; color: var(--purple); }
 
   /* ---------- History ---------- */
   .day-group{ margin-bottom: 18px; }
   .day-label{
-    font-size: 10.5px; color: var(--ink-soft); text-transform:uppercase;
+    font-size: 10.5px; color: var(--purple); text-transform:uppercase; font-weight:bold;
     letter-spacing:0.07em; margin-bottom: 8px; padding-left:2px;
   }
   .entry{
     display:flex; justify-content:space-between; align-items:center;
-    padding: 11px 4px; border-bottom: 1px dashed var(--line);
-    cursor:pointer; transition: background .1s;
+    padding: 13px 8px; border-bottom: 1px dashed var(--line);
+    cursor:pointer; transition: background .1s; border-radius:12px;
   }
-  .entry:active{ background: rgba(184,134,46,0.08); border-radius:6px; }
+  .entry:active{ background: rgba(108,76,224,0.08); }
   .entry-left{ display:flex; flex-direction:column; min-width:0; }
-  .entry-cat{ font-size: 14.5px; }
+  .entry-cat{ font-size: 15px; font-weight:600; }
   .entry-note{ font-size: 11.5px; color: var(--ink-soft); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:220px; }
   .entry-right{ display:flex; align-items:center; gap:8px; }
-  .entry-amt{ font-family:'Courier New', monospace; font-size:15px; font-weight:bold; }
+  .entry-amt{ font-family:'Courier New', monospace; font-size:16px; font-weight:bold; }
   .entry-amt.out{ color: var(--red); }
   .entry-amt.in{ color: var(--green); }
-  .chev{ color: var(--ink-soft); opacity:0.5; font-size:13px; }
+  .chev{ color: var(--purple); opacity:0.6; font-size:14px; }
   .empty-note{ text-align:center; color:var(--ink-soft); font-size:13px; padding: 36px 10px; }
 
   /* ---------- Categories ---------- */
-  .cat-row{ margin-bottom: 15px; }
-  .cat-top{ display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:6px; }
-  .cat-amt{ font-family:'Courier New', monospace; }
-  .bar-track{ height:8px; background:#E4DBBE; border-radius:5px; overflow:hidden; }
-  .bar-fill{ height:100%; background: linear-gradient(90deg, var(--gold), #D6A94A); border-radius:5px; }
+  .cat-row{ margin-bottom: 17px; }
+  .cat-top{ display:flex; justify-content:space-between; font-size:14px; margin-bottom:7px; font-weight:600; }
+  .cat-amt{ font-family:'Courier New', monospace; color: var(--purple); }
+  .bar-track{ height:10px; background:#EFECFC; border-radius:6px; overflow:hidden; }
+  .bar-fill{ height:100%; background: linear-gradient(90deg, var(--purple), var(--pink), var(--gold)); border-radius:6px; }
 
   .footer-note{
-    text-align:center; font-size: 11px; color: rgba(244,238,220,0.5);
-    padding: 16px 20px 0;
+    text-align:center; font-size: 11.5px; color: var(--ink-soft);
+    padding: 18px 20px 0;
   }
   .reset-link{
-    text-align:center; font-size:11.5px; color: rgba(244,238,220,0.6);
-    padding: 8px 0 4px; cursor:pointer; text-decoration:underline;
+    text-align:center; font-size:12.5px; color: var(--purple); font-weight:800;
+    padding: 10px 0 4px; cursor:pointer; text-decoration:underline;
   }
+
+  /* ---------- Recurring toggle ---------- */
+  .recur-row{ display:flex; align-items:center; gap:9px; margin: -6px 0 16px; }
+  .recur-row input[type="checkbox"]{ width:19px; height:19px; accent-color: var(--purple); }
+  .recur-row label{ font-size:13.5px; color: var(--ink); cursor:pointer; }
+  .recur-tag{ font-size:11px; color: var(--purple); margin-left:6px; }
+
+  /* ---------- Search / filter ---------- */
+  .search-row{ display:flex; gap:8px; margin-bottom:14px; }
+  .search-row input[type="text"]{
+    flex:1; padding:12px 13px; font-size:14.5px; border:2px solid var(--line);
+    border-radius:12px; background:var(--paper-raised); font-family:inherit; color:var(--ink);
+  }
+  .search-row select{
+    padding:12px 10px; font-size:13px; border:2px solid var(--line); border-radius:12px;
+    background:var(--paper-raised); font-family:inherit; color:var(--ink); max-width:130px;
+  }
+  .search-row input:focus, .search-row select:focus{ outline:none; border-color:var(--purple); }
+
+  /* ---------- Insight card ---------- */
+  .insight-card{
+    background: linear-gradient(135deg, rgba(108,76,224,0.10), rgba(0,191,166,0.10));
+    border: 2px solid var(--line); border-radius:14px; padding:13px 15px; margin-bottom:16px;
+    font-size:13px; color:var(--ink); display:flex; align-items:center; gap:10px;
+  }
+
+  /* ---------- Budget UI ---------- */
+  .cat-budget-link{ font-size:10.5px; color: var(--purple); cursor:pointer; text-decoration:underline; font-weight:600; }
+  .cat-budget-text{ font-size:11px; color: var(--ink-soft); margin-top:2px; }
+  .cat-budget-text.warn{ color: var(--gold); font-weight:700; }
+  .cat-budget-text.over{ color: var(--red); font-weight:700; }
+
+  /* ---------- Category donut ---------- */
+  .donut-wrap{ display:flex; align-items:center; gap:18px; margin-bottom:22px; }
+  .donut-center-total{ font-family:'Courier New', monospace; font-size:12px; font-weight:bold; fill:var(--ink); }
+  .donut-legend{ flex:1; display:flex; flex-direction:column; gap:6px; font-size:11.5px; }
+  .donut-legend .item{ display:flex; align-items:center; gap:7px; }
+  .donut-legend .swatch{ width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+
+  /* ---------- Share ---------- */
+  .share-row{
+    text-align:center; font-size:14px; color:#fff; font-weight:800; cursor:pointer;
+    margin-top:8px; padding:15px; border-radius:14px; letter-spacing:0.01em;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    box-shadow: 0 8px 20px rgba(37,211,102,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  .share-row:active{ transform: scale(0.98); }
 
   /* ---------- Action sheet ---------- */
   .overlay{
-    position:fixed; inset:0; background: rgba(20,14,18,0.55);
+    position:fixed; inset:0; background: rgba(36,31,58,0.55);
     display:none; align-items:flex-end; justify-content:center; z-index:50;
   }
   .overlay.show{ display:flex; }
   .sheet{
     width:100%; max-width:460px; background: var(--paper-raised);
-    border-radius: 16px 16px 0 0; padding: 18px 20px 26px;
+    border-radius: 22px 22px 0 0; padding: 20px 20px 28px;
     animation: slideup .2s ease;
   }
   @keyframes slideup{ from{ transform: translateY(100%);} to{ transform: translateY(0);} }
-  .sheet-title{ font-size:13px; color:var(--ink-soft); margin-bottom:4px; }
-  .sheet-entry{ font-size:16px; margin-bottom:16px; }
+  .sheet-title{ font-size:13.5px; color:var(--ink-soft); margin-bottom:5px; font-weight:700; }
+  .sheet-entry{ font-size:16px; margin-bottom:18px; }
   .sheet-entry b{ font-family:'Courier New', monospace; }
   .sheet-btn{
-    width:100%; padding:13px; border-radius:9px; font-size:14.5px;
-    border:1px solid var(--line); background:var(--paper-raised); color:var(--ink);
-    margin-bottom:9px; cursor:pointer; font-family:inherit; text-align:left;
-    display:flex; align-items:center; gap:10px;
+    width:100%; padding:17px; border-radius:14px; font-size:15px;
+    border:2px solid var(--line); background:var(--paper-raised); color:var(--ink);
+    margin-bottom:10px; cursor:pointer; font-family:inherit; text-align:left;
+    display:flex; align-items:center; gap:10px; font-weight:800;
   }
-  .sheet-btn.danger{ color:var(--red); border-color: rgba(156,59,59,0.3); background: var(--red-soft); }
-  .sheet-btn.cancel{ text-align:center; justify-content:center; color:var(--ink-soft); border:none; margin-top:2px; }
-  .confirm-row{ display:flex; gap:8px; }
+  .sheet-btn:active{ transform: scale(0.98); }
+  .sheet-btn.danger{ color:var(--red); border-color: rgba(255,90,95,0.35); background: var(--red-soft); }
+  .sheet-btn.selected{ border-color: var(--purple); background: rgba(108,76,224,0.08); color: var(--purple); }
+  .sheet-btn.cancel{ text-align:center; justify-content:center; color:var(--ink-soft); border:none; margin-top:2px; font-weight:600; }
+  .confirm-row{ display:flex; gap:10px; }
   .confirm-row .sheet-btn{ margin-bottom:0; justify-content:center; }
+
+  /* ---------- RTL & script fonts ---------- */
+  html[dir="rtl"] body{ direction: rtl; text-align: right; }
+  html[dir="rtl"] .sheet-btn{ text-align: right; }
+  html[dir="rtl"] .field label{ text-align: right; }
+  html[dir="rtl"] .items-toggle{ direction: rtl; }
+  html[dir="rtl"] .cancel-edit{ text-decoration: underline; }
+  html[lang="ur"] body, html[lang="ur"] input, html[lang="ur"] select{ font-family: 'Noto Nastaliq Urdu', serif; }
+  html[lang="ps"] body, html[lang="ps"] input, html[lang="ps"] select{ font-family: 'Noto Nastaliq Urdu', serif; }
+  html[lang="hno"] body, html[lang="hno"] input, html[lang="hno"] select{ font-family: 'Noto Nastaliq Urdu', serif; }
+  html[lang="ar"] body, html[lang="ar"] input, html[lang="ar"] select{ font-family: 'Noto Naskh Arabic', serif; }
+  html[lang="bn"] body, html[lang="bn"] input, html[lang="bn"] select{ font-family: 'Noto Sans Bengali', sans-serif; }
+
+  /* ---------- Friendly touches: voice button + toast ---------- */
+  .voice-row{ display:flex; gap:8px; margin: -2px 0 18px; }
+  .voice-btn{
+    flex:1; padding:16px; text-align:center; border-radius:14px; font-size:15px; font-weight:800;
+    border:2px solid var(--teal); cursor:pointer; background: rgba(0,191,166,0.10);
+    color: var(--cover-dark); font-family:inherit; transition: all .15s;
+  }
+  .voice-btn:active{ transform: scale(0.97); }
+  .voice-btn.listening{ background: var(--red-soft); border-color: var(--red); color:var(--red); font-weight:800; animation: pulse 1s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.55;} }
+  .toast{
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(20px);
+    background: linear-gradient(135deg, var(--purple), var(--teal)); color: #fff; padding:13px 22px; border-radius:22px;
+    font-size:14px; font-weight:600; box-shadow:0 10px 28px rgba(108,76,224,0.4); z-index:100;
+    opacity:0; pointer-events:none; transition: all .25s ease;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
-<div id="lockScreen" style="display:none; text-align:center; color:var(--paper); padding-top:70px; max-width:380px; margin:0 auto;">
-  <div style="font-size:20px;"><em style="color:#C9A868; font-style:normal;">Ghar</em> Ledger</div>
-  <div style="font-size:12px; color:#B8AF9A; margin-top:6px;">This copy needs a license key to unlock.</div>
+<div id="lockScreen" style="display:none; text-align:center; color:var(--ink); padding-top:70px; max-width:380px; margin:0 auto;">
+  <div id="lockBrand" style="font-size:20px;"><em style="color:var(--purple); font-style:normal;">Ghar</em> Ledger</div>
+  <div style="font-size:12px; color:var(--ink-soft); margin-top:6px;">This copy needs a license key to unlock.</div>
   <input type="text" id="licenseInput" placeholder="GL-XXXX-XXXX"
     style="width:220px; text-align:center; letter-spacing:0.12em; font-size:16px; padding:12px;
     border-radius:8px; border:1px solid var(--line); margin-top:22px; background:var(--paper-raised);
     font-family:'Courier New',monospace; color:var(--ink);">
   <div>
-    <button id="licenseUnlockBtn" style="margin-top:14px; background:var(--gold); color:var(--cover-dark);
-      border:none; padding:11px 26px; border-radius:8px; font-size:14px; cursor:pointer; font-family:inherit; font-weight:bold;">
+    <button id="licenseUnlockBtn" style="margin-top:16px; background:linear-gradient(135deg, var(--purple), var(--teal)); color:#fff;
+      border:none; padding:17px 36px; border-radius:14px; font-size:16px; cursor:pointer; font-family:inherit; font-weight:800;
+      box-shadow: 0 10px 24px rgba(108,76,224,0.4), inset 0 1px 0 rgba(255,255,255,0.35); letter-spacing:0.02em;">
       Unlock
     </button>
   </div>
-  <div id="licenseErr" style="color:#E39B9B; font-size:12px; margin-top:10px; min-height:16px;"></div>
-  <div style="font-size:11px; color:#8A7D8A; margin-top:18px;">Don't have a key? Contact whoever set this up for you.</div>
+  <div id="licenseErr" style="color:var(--red); font-size:12px; margin-top:10px; min-height:16px; font-weight:700;"></div>
+
+  <div id="backToDemoRow" style="display:none; margin-top:14px;">
+    <button id="backToDemoBtn" style="background:none; border:none; color:var(--purple); font-size:12.5px; font-weight:800; cursor:pointer; font-family:inherit; text-decoration:underline;">← Back to my demo</button>
+  </div>
+
+  <div id="demoRow" style="margin-top:26px;">
+    <div style="display:flex; align-items:center; gap:10px; color:var(--ink-soft); font-size:11px;">
+      <div style="flex:1; height:1px; background:var(--line);"></div>
+      <div>or</div>
+      <div style="flex:1; height:1px; background:var(--line);"></div>
+    </div>
+    <button id="demoBtn" style="margin-top:16px; background:rgba(0,191,166,0.10); color:var(--cover-dark);
+      border:2px solid var(--teal); padding:14px 28px; border-radius:14px; font-size:15px; cursor:pointer; font-family:inherit; font-weight:800;">
+      🎁 Try free for 24 hours
+    </button>
+    <div style="font-size:10.5px; color:var(--ink-soft); margin-top:8px;">No key needed. Full access for one day.</div>
+  </div>
+
+  <div style="font-size:11px; color:var(--ink-soft); margin-top:18px;">Don't have a key? Contact whoever set this up for you.</div>
 </div>
 
 <div id="app" style="display:none;">
+<div id="trialBanner" style="display:none; align-items:center; justify-content:space-between; gap:10px;
+  background:linear-gradient(135deg, var(--purple), var(--teal)); color:#fff; border-radius:14px;
+  padding:11px 16px; margin-bottom:10px; font-size:12.5px; font-weight:700;">
+  <span id="trialDaysText">Free demo</span>
+  <button id="activateFromBannerBtn" style="background:rgba(255,255,255,0.2); border:none; color:#fff;
+    padding:8px 13px; border-radius:20px; font-size:11.5px; cursor:pointer; font-family:inherit; font-weight:800;">Enter license key</button>
+</div>
 
 <script>
 (function licenseGate(){
   const params = new URLSearchParams(location.search);
   const urlKey = params.get('key');
+  const TRIAL_HOURS = 24;
 
   function getDeviceId(){
     let id = localStorage.getItem('gl_device_id');
@@ -301,17 +430,38 @@
     }
     return id;
   }
+  const ADMIN_PIN = '1122';
+  function isAdmin(){
+    return localStorage.getItem('gl_admin') === 'true';
+  }
+  function setAdmin(){
+    localStorage.setItem('gl_admin', 'true');
+  }
   function getStoredLicense(){
     try{ return JSON.parse(localStorage.getItem('gl_license') || 'null'); }catch(e){ return null; }
   }
   function storeLicense(key, name){
     localStorage.setItem('gl_license', JSON.stringify({ key, name: name || '', date: new Date().toISOString() }));
   }
+  function getTrialStart(){
+    return localStorage.getItem('gl_trial_start');
+  }
+  function startTrial(){
+    localStorage.setItem('gl_trial_start', String(Date.now()));
+  }
+  // null = never started a trial. 0 or negative = trial expired.
+  function trialHoursLeft(){
+    const start = getTrialStart();
+    if(!start) return null;
+    const elapsedHours = (Date.now() - Number(start)) / 3600000;
+    return Math.max(0, TRIAL_HOURS - elapsedHours);
+  }
   function showApp(){
     document.getElementById('lockScreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
   }
   function showLock(){
+    document.getElementById('app').style.display = 'none';
     document.getElementById('lockScreen').style.display = 'block';
   }
   function setBusy(busy){
@@ -321,6 +471,24 @@
   function setErr(msg){
     const el = document.getElementById('licenseErr');
     if(el) el.textContent = msg;
+  }
+
+  function refreshTrialBanner(){
+    const banner = document.getElementById('trialBanner');
+    if(!banner) return;
+    if(getStoredLicense()){ banner.style.display = 'none'; return; }
+    const hoursLeft = trialHoursLeft();
+    if(hoursLeft === null || hoursLeft <= 0){ banner.style.display = 'none'; return; }
+    let label;
+    if(hoursLeft >= 1){
+      const roundedH = Math.max(1, Math.ceil(hoursLeft));
+      label = roundedH + ' hour' + (roundedH === 1 ? '' : 's') + ' left';
+    } else {
+      const roundedM = Math.max(1, Math.ceil(hoursLeft * 60));
+      label = roundedM + ' minute' + (roundedM === 1 ? '' : 's') + ' left';
+    }
+    document.getElementById('trialDaysText').textContent = '🎁 Free demo — ' + label;
+    banner.style.display = 'flex';
   }
 
   async function verifyKey(key){
@@ -335,7 +503,9 @@
       setBusy(false);
       if(data.ok){
         storeLicense(key, data.name);
+        localStorage.removeItem('gl_trial_start');
         showApp();
+        refreshTrialBanner();
       } else if(data.reason === 'already_activated'){
         setErr('This key is already in use on another device.');
       } else if(data.reason === 'revoked'){
@@ -351,14 +521,35 @@
     }
   }
 
-  // Already activated on this device — skip straight in, fully offline from here on.
+  // 0) Admin device — always skip straight in, regardless of license or trial state.
+  if(isAdmin()){
+    showApp();
+    return;
+  }
+
+  // 1) Already activated on this device — skip straight in, fully offline from here on.
   const existing = getStoredLicense();
   if(existing && existing.key){
     showApp();
     return;
   }
 
-  showLock();
+  // 2) A trial is running (or just expired) — decide what to show.
+  const hoursLeft = trialHoursLeft();
+  const trialActive = hoursLeft !== null && hoursLeft > 0;
+  const trialExpired = hoursLeft !== null && hoursLeft <= 0;
+
+  if(trialActive){
+    showApp();
+    refreshTrialBanner();
+  } else {
+    showLock();
+    if(trialExpired){
+      setErr('Your 24-hour free demo has ended. Enter a license key to keep using Ghar Ledger.');
+      document.getElementById('demoRow').style.display = 'none';
+    }
+  }
+
   if(urlKey){
     document.getElementById('licenseInput').value = urlKey;
     verifyKey(urlKey);
@@ -372,6 +563,41 @@
   document.getElementById('licenseInput').addEventListener('keydown', e => {
     if(e.key === 'Enter') document.getElementById('licenseUnlockBtn').click();
   });
+
+  document.getElementById('demoBtn').onclick = () => {
+    startTrial();
+    showApp();
+    refreshTrialBanner();
+  };
+
+  // Hidden admin unlock: tap the "Ghar Ledger" title 5 times within 2 seconds.
+  let brandTaps = 0, brandTapTimer = null;
+  document.getElementById('lockBrand').onclick = () => {
+    brandTaps++;
+    clearTimeout(brandTapTimer);
+    brandTapTimer = setTimeout(() => { brandTaps = 0; }, 2000);
+    if(brandTaps >= 5){
+      brandTaps = 0;
+      const pin = prompt('Admin PIN:');
+      if(pin === ADMIN_PIN){
+        setAdmin();
+        showApp();
+      } else if(pin !== null){
+        alert('Incorrect PIN.');
+      }
+    }
+  };
+
+  document.getElementById('activateFromBannerBtn').onclick = () => {
+    showLock();
+    document.getElementById('demoRow').style.display = 'none';
+    document.getElementById('backToDemoRow').style.display = trialActive ? 'block' : 'none';
+  };
+
+  document.getElementById('backToDemoBtn').onclick = () => {
+    showApp();
+    refreshTrialBanner();
+  };
 })();
 </script>
 
@@ -380,88 +606,390 @@
     <div class="brand-row">
       <div class="brand"><em>Ghar</em> Ledger</div>
     </div>
-    <div class="tagline">household accounts, kept properly</div>
+    <div class="tagline" data-i18n="tagline">household accounts, kept properly</div>
 
     <div class="balance-block">
-      <div class="balance-label">Balance this month</div>
+      <div class="balance-label" data-i18n="balanceLabel">Balance this month</div>
       <div class="balance" id="balanceDisplay">Rs 0</div>
       <div class="period" id="monthLabel"></div>
     </div>
 
     <div class="sub-stats">
-      <div class="stat-pill in"><div class="lbl">Income</div><div class="val" id="inTotal">0</div></div>
-      <div class="stat-pill out"><div class="lbl">Spent</div><div class="val" id="outTotal">0</div></div>
+      <div class="stat-pill in"><div class="lbl" data-i18n="incomeLabel">Income</div><div class="val" id="inTotal">0</div></div>
+      <div class="stat-pill out"><div class="lbl" data-i18n="spentLabel">Spent</div><div class="val" id="outTotal">0</div></div>
     </div>
   </div>
 
   <div class="page">
     <div class="tabs">
-      <button class="tab active" data-tab="add">Add</button>
-      <button class="tab" data-tab="history">History</button>
-      <button class="tab" data-tab="categories">Categories</button>
-      <button class="tab" data-tab="passbook">Passbook</button>
+      <button class="tab active" data-tab="add">➕ <span data-i18n="tabAdd">Add</span></button>
+      <button class="tab" data-tab="history">🕘 <span data-i18n="tabHistory">History</span></button>
+      <button class="tab" data-tab="categories">📊 <span data-i18n="tabCategories">Categories</span></button>
+      <button class="tab" data-tab="passbook">📒 <span data-i18n="tabPassbook">Passbook</span></button>
     </div>
 
     <div class="panel active" id="panel-add">
       <div class="form-title">
-        <span id="formTitleText">New entry</span>
-        <span class="cancel-edit" id="cancelEdit" style="display:none;">Cancel edit</span>
+        <span id="formTitleText" data-i18n="newEntry">New entry</span>
+        <span class="cancel-edit" id="cancelEdit" style="display:none;" data-i18n="cancelEdit">Cancel edit</span>
+      </div>
+      <div class="voice-row">
+        <div class="voice-btn" id="voiceBtn">🎤 <span id="voiceBtnLabel" data-i18n="voiceHint">Add by voice</span></div>
       </div>
       <div class="type-toggle">
-        <div class="type-btn sel-out" id="btnOut">Expense</div>
-        <div class="type-btn" id="btnIn">Income</div>
+        <div class="type-btn sel-out" id="btnOut" data-i18n="expense">Expense</div>
+        <div class="type-btn" id="btnIn" data-i18n="income">Income</div>
       </div>
       <div class="field">
-        <label>Amount (Rs)</label>
+        <label id="amountLabelText">Amount (Rs)</label>
         <input type="number" id="inAmount" placeholder="0" inputmode="decimal">
       </div>
       <div class="field">
-        <label>Category</label>
+        <label data-i18n="categoryLabel">Category</label>
         <select id="inCategory"></select>
       </div>
 
-      <div class="items-toggle" id="itemsToggle">+ &nbsp; Add items with quantity (e.g. grocery list)</div>
+      <div class="items-toggle" id="itemsToggle" data-i18n="itemsToggle">+ &nbsp; Add items with quantity (e.g. grocery list)</div>
       <div class="item-builder" id="itemBuilder" style="display:none;">
         <div id="itemRows"></div>
-        <div class="add-item-btn" id="addItemBtn">+ Add another item</div>
-        <div class="items-total-row">Items total: <b id="itemsTotalDisplay">Rs 0</b></div>
+        <div class="add-item-btn" id="addItemBtn" data-i18n="addAnotherItem">+ Add another item</div>
+        <div class="items-total-row"><span data-i18n="itemsTotal">Items total:</span> <b id="itemsTotalDisplay">Rs 0</b></div>
       </div>
 
       <div class="field">
-        <label>Note (optional)</label>
+        <label data-i18n="noteLabel">Note (optional)</label>
         <input type="text" id="inNote" placeholder="e.g. weekly grocery run">
       </div>
-      <button class="save-btn" id="saveBtn">Save entry</button>
+      <div class="recur-row" id="recurRow">
+        <input type="checkbox" id="inRecurring">
+        <label for="inRecurring" data-i18n="repeatMonthly">🔁 Repeat monthly</label>
+      </div>
+      <button class="save-btn" id="saveBtn" data-i18n="saveEntry">Save entry</button>
     </div>
 
     <div class="panel" id="panel-history">
+      <div class="search-row">
+        <input type="text" id="historySearch" data-i18n-placeholder="searchPlaceholder" placeholder="Search entries…">
+        <select id="historyFilter"></select>
+      </div>
+      <div id="insightCard" style="display:none;"></div>
       <div id="historyList"></div>
     </div>
 
     <div class="panel" id="panel-categories">
+      <div id="catDonutWrap"></div>
       <div id="catList"></div>
+      <div class="share-row" id="shareBtn">📤 <span data-i18n="shareSummary">Share summary</span></div>
     </div>
 
     <div class="panel" id="panel-passbook">
       <div class="pb-head-row">
-        <span>Date / Detail</span>
-        <span>Balance</span>
+        <span data-i18n="pbDateDetail">Date / Detail</span>
+        <span data-i18n="pbBalance">Balance</span>
       </div>
       <div id="passbookList"></div>
     </div>
   </div>
 
-  <div class="footer-note">Works fully offline — entries are stored only on this device.</div>
-  <div class="reset-link" id="resetLink">Reset entries</div>
+  <div class="footer-note" data-i18n="footerNote">Works fully offline — entries are stored only on this device.</div>
+  <div class="reset-link" id="currencyLink"><span data-i18n="currencyPrefix">Currency:</span> <span id="currencyLabel">Rs (India/Pakistan)</span></div>
+  <div class="reset-link" id="languageLink"><span data-i18n="languagePrefix">Language:</span> <span id="languageLabel">English</span></div>
+  <div class="reset-link" id="resetLink" data-i18n="resetEntries">Reset entries</div>
 </div>
 
 <div class="overlay" id="overlay">
   <div class="sheet" id="sheet"></div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
 const EXPENSE_CATS = ["Groceries","Utilities","Transport","Rent","Health","Education","Household","Other"];
 const INCOME_CATS = ["Salary","Business","Gift","Other income"];
+
+const LANGS = [
+  { code: 'en', native: 'English',  dir: 'ltr', speech: 'en-US' },
+  { code: 'ur', native: 'اردو',     dir: 'rtl', speech: 'ur-PK' },
+  { code: 'ps', native: 'پښتو',     dir: 'rtl', speech: 'ps-AF' },
+  { code: 'hno', native: 'ہندکو',   dir: 'rtl', speech: 'ur-PK' },
+  { code: 'ar', native: 'العربية',  dir: 'rtl', speech: 'ar-SA' },
+  { code: 'de', native: 'Deutsch',  dir: 'ltr', speech: 'de-DE' },
+  { code: 'fr', native: 'Français', dir: 'ltr', speech: 'fr-FR' },
+  { code: 'bn', native: 'বাংলা',    dir: 'ltr', speech: 'bn-BD' },
+];
+
+const I18N = {
+  en: { tagline:"household accounts, kept properly", balanceLabel:"Balance this month", incomeLabel:"Income", spentLabel:"Spent",
+    tabAdd:"Add", tabHistory:"History", tabCategories:"Categories", tabPassbook:"Passbook",
+    newEntry:"New entry", editingEntry:"Editing entry", cancelEdit:"Cancel edit", expense:"Expense", income:"Income",
+    amountLabel:"Amount", categoryLabel:"Category", itemsToggle:"+  Add items with quantity (e.g. grocery list)",
+    itemName:"Item", itemQty:"Qty", itemPrice:"Price", addAnotherItem:"+ Add another item", itemsTotal:"Items total:",
+    noteLabel:"Note (optional)", notePlaceholder:"e.g. weekly grocery run", saveEntry:"Save entry", updateEntry:"Update entry",
+    footerNote:"Works fully offline — entries are stored only on this device.", currencyPrefix:"Currency:", languagePrefix:"Language:",
+    resetEntries:"Reset entries", emptyHistory:"No entries yet. Add your first one from the Add tab. 🙂",
+    emptyCategories:"No expenses recorded yet.", emptyPassbook:"No entries yet. Your passbook will fill in as you add them.",
+    pbDateDetail:"Date / Detail", pbBalance:"Balance", resetSheetTitle:"Reset entries", resetSheetText:"Choose how you'd like to reset the ledger.",
+    deleteAllBtn:"🗑  Delete all entries", restoreDemoBtn:"↺  Restore sample data", cancelBtn:"Cancel",
+    clearAllTitle:"Delete all entries?", clearAllText:"This removes every income and expense entry. This can't be undone.",
+    keepEntries:"Keep entries", deleteAll:"Delete all", restoreTitle:"Restore sample data?",
+    restoreText:"This replaces your current entries with the original demo entries.", restoreBtn:"Restore",
+    editEntryBtn:"✎  Edit / rewrite entry", deleteEntryBtn:"🗑  Delete entry", deleteThisTitle:"Delete this entry?",
+    keepIt:"Keep it", deleteBtn:"Delete", chooseCurrencyTitle:"Choose currency", chooseCurrencyText:"This changes how amounts are displayed on this device.",
+    chooseLanguageTitle:"Choose language", chooseLanguageText:"This changes the app's language on this device.",
+    voiceHint:"Add by voice", voiceListening:"Listening… speak now", voiceUnsupported:"Voice input isn't supported in this browser. Try Chrome.",
+    voiceCaptured:"Got it — check the details below 👍", savedToast:"Saved! ✅",
+    repeatMonthly:"🔁 Repeat monthly", setBudget:"Set budget", budgetLabel:"Budget", budgetSheetTitle:"Set monthly budget",
+    budgetPlaceholder:"e.g. 15000", budgetSaveBtn:"Save budget", budgetRemoveBtn:"Remove budget", overBudget:"Over budget",
+    nearBudget:"Almost at budget", searchPlaceholder:"Search entries…", filterAll:"All categories",
+    insightUp:"You spent {pct}% more than last month", insightDown:"You spent {pct}% less than last month 🎉",
+    insightSame:"About the same as last month", shareSummary:"Share summary", noResults:"No entries match your search." },
+
+  ur: { tagline:"گھریلو حساب، صحیح طریقے سے", balanceLabel:"اس مہینے کا بیلنس", incomeLabel:"آمدنی", spentLabel:"خرچ",
+    tabAdd:"شامل کریں", tabHistory:"تاریخچہ", tabCategories:"قسمیں", tabPassbook:"پاس بک",
+    newEntry:"نئی انٹری", editingEntry:"انٹری میں ترمیم", cancelEdit:"ترمیم منسوخ کریں", expense:"خرچ", income:"آمدنی",
+    amountLabel:"رقم", categoryLabel:"قسم", itemsToggle:"+ مقدار کے ساتھ اشیاء شامل کریں (مثلاً گروسری لسٹ)",
+    itemName:"چیز", itemQty:"مقدار", itemPrice:"قیمت", addAnotherItem:"+ ایک اور چیز شامل کریں", itemsTotal:"کل رقم:",
+    noteLabel:"نوٹ (اختیاری)", notePlaceholder:"مثلاً ہفتہ وار گروسری", saveEntry:"انٹری محفوظ کریں", updateEntry:"انٹری اپ ڈیٹ کریں",
+    footerNote:"مکمل آف لائن کام کرتا ہے — انٹریاں صرف اس ڈیوائس پر محفوظ ہیں۔", currencyPrefix:"کرنسی:", languagePrefix:"زبان:",
+    resetEntries:"انٹریاں ری سیٹ کریں", emptyHistory:"ابھی کوئی انٹری نہیں۔ 'شامل کریں' ٹیب سے پہلی انٹری شامل کریں۔ 🙂",
+    emptyCategories:"ابھی تک کوئی خرچ درج نہیں ہوا۔", emptyPassbook:"ابھی کوئی انٹری نہیں۔ انٹریاں شامل کرتے ہی پاس بک بھر جائے گی۔",
+    pbDateDetail:"تاریخ / تفصیل", pbBalance:"بیلنس", resetSheetTitle:"انٹریاں ری سیٹ کریں", resetSheetText:"منتخب کریں کہ لیجر کیسے ری سیٹ کرنا ہے۔",
+    deleteAllBtn:"🗑 تمام انٹریاں حذف کریں", restoreDemoBtn:"↺ نمونہ ڈیٹا بحال کریں", cancelBtn:"منسوخ کریں",
+    clearAllTitle:"تمام انٹریاں حذف کریں؟", clearAllText:"یہ تمام آمدنی اور خرچ کی انٹریاں ہٹا دے گا۔ اسے واپس نہیں لیا جا سکتا۔",
+    keepEntries:"انٹریاں رکھیں", deleteAll:"سب حذف کریں", restoreTitle:"نمونہ ڈیٹا بحال کریں؟",
+    restoreText:"یہ آپ کی موجودہ انٹریوں کو اصل نمونہ انٹریوں سے بدل دے گا۔", restoreBtn:"بحال کریں",
+    editEntryBtn:"✎ انٹری میں ترمیم کریں", deleteEntryBtn:"🗑 انٹری حذف کریں", deleteThisTitle:"یہ انٹری حذف کریں؟",
+    keepIt:"رکھیں", deleteBtn:"حذف کریں", chooseCurrencyTitle:"کرنسی منتخب کریں", chooseCurrencyText:"یہ اس ڈیوائس پر رقم دکھانے کا طریقہ بدل دیتا ہے۔",
+    chooseLanguageTitle:"زبان منتخب کریں", chooseLanguageText:"یہ اس ڈیوائس پر ایپ کی زبان بدل دیتا ہے۔",
+    voiceHint:"آواز سے شامل کریں", voiceListening:"سن رہا ہے… اب بولیں", voiceUnsupported:"اس براؤزر میں آواز کی سہولت دستیاب نہیں۔ کروم آزمائیں۔",
+    voiceCaptured:"مل گیا — نیچے تفصیل چیک کریں 👍", savedToast:"محفوظ ہو گیا! ✅",
+    repeatMonthly:"🔁 ہر مہینے دہرائیں", setBudget:"بجٹ مقرر کریں", budgetLabel:"بجٹ", budgetSheetTitle:"ماہانہ بجٹ مقرر کریں",
+    budgetPlaceholder:"مثلاً 15000", budgetSaveBtn:"بجٹ محفوظ کریں", budgetRemoveBtn:"بجٹ ہٹائیں", overBudget:"بجٹ سے زیادہ",
+    nearBudget:"بجٹ کے قریب", searchPlaceholder:"انٹریاں تلاش کریں…", filterAll:"تمام قسمیں",
+    insightUp:"آپ نے پچھلے مہینے سے {pct}% زیادہ خرچ کیا", insightDown:"آپ نے پچھلے مہینے سے {pct}% کم خرچ کیا 🎉",
+    insightSame:"پچھلے مہینے جیسا ہی", shareSummary:"خلاصہ شیئر کریں", noResults:"آپ کی تلاش سے کوئی انٹری میل نہیں کھاتی۔" },
+
+  ps: { tagline:"د کور حساب، سم ساتل شوی", balanceLabel:"د دې میاشتې بیلانس", incomeLabel:"عاید", spentLabel:"لګښت",
+    tabAdd:"زیاتول", tabHistory:"تاریخچه", tabCategories:"ډولونه", tabPassbook:"پاسبوک",
+    newEntry:"نوې ننوتنه", editingEntry:"د ننوتنې سمول", cancelEdit:"سمون لغوه کول", expense:"لګښت", income:"عاید",
+    amountLabel:"اندازه", categoryLabel:"ډول", itemsToggle:"+ د مقدار سره توکي زیات کړئ (لکه د پیرودلو لیست)",
+    itemName:"توکی", itemQty:"مقدار", itemPrice:"قیمت", addAnotherItem:"+ بل توکی زیات کړئ", itemsTotal:"ټول:",
+    noteLabel:"یادداښت (اختیاري)", notePlaceholder:"لکه اونیزه پیرودنه", saveEntry:"ننوتنه خوندي کړئ", updateEntry:"ننوتنه تازه کړئ",
+    footerNote:"په بشپړ ډول آفلاین کار کوي — ننوتنې یوازې پدې وسیله کې خوندي دي.", currencyPrefix:"پیسې:", languagePrefix:"ژبه:",
+    resetEntries:"ننوتنې بیا تنظیم کړئ", emptyHistory:"لا تر اوسه هېڅ ننوتنه نشته. لومړۍ یې د 'زیاتول' ټب څخه زیاته کړئ. 🙂",
+    emptyCategories:"لا تر اوسه هېڅ لګښت ثبت شوی نه دی.", emptyPassbook:"لا تر اوسه هېڅ ننوتنه نشته. ستاسو پاسبوک به ډک شي کله چې ننوتنې زیاتې کړئ.",
+    pbDateDetail:"نېټه / تفصیل", pbBalance:"بیلانس", resetSheetTitle:"ننوتنې بیا تنظیم کړئ", resetSheetText:"غوره کړئ چې لیجر څنګه بیا تنظیم شي.",
+    deleteAllBtn:"🗑 ټولې ننوتنې ړنګې کړئ", restoreDemoBtn:"↺ نمونه ډاټا بیرته راولئ", cancelBtn:"لغوه کول",
+    clearAllTitle:"ټولې ننوتنې ړنګې کړئ؟", clearAllText:"دا به ټولې د عاید او لګښت ننوتنې لرې کړي. دا بیرته نشي کیدای.",
+    keepEntries:"ننوتنې وساتئ", deleteAll:"ټول ړنګ کړئ", restoreTitle:"نمونه ډاټا بیرته راولئ؟",
+    restoreText:"دا به ستاسو اوسنۍ ننوتنې د اصلي نمونې ننوتنو سره بدلې کړي.", restoreBtn:"بیرته راوړل",
+    editEntryBtn:"✎ ننوتنه سمه کړئ", deleteEntryBtn:"🗑 ننوتنه ړنګه کړئ", deleteThisTitle:"دا ننوتنه ړنګه کړئ؟",
+    keepIt:"وساتئ", deleteBtn:"ړنګول", chooseCurrencyTitle:"پیسې غوره کړئ", chooseCurrencyText:"دا به بدلوي چې پیسې پدې وسیله کې څنګه ښودل کیږي.",
+    chooseLanguageTitle:"ژبه غوره کړئ", chooseLanguageText:"دا به د اپلیکیشن ژبه پدې وسیله کې بدلوي.",
+    voiceHint:"په اواز سره زیاتول", voiceListening:"غوږ نیسي… اوس وغږیږئ", voiceUnsupported:"د اواز ننوت پدې براوزر کې ملاتړ نه کیږي. کروم وکاروئ.",
+    voiceCaptured:"ترلاسه شول — لاندې تفصیل وګورئ 👍", savedToast:"خوندي شول! ✅",
+    repeatMonthly:"🔁 میاشتنی تکرار", setBudget:"بودیجه ټاکل", budgetLabel:"بودیجه", budgetSheetTitle:"میاشتنۍ بودیجه ټاکئ",
+    budgetPlaceholder:"لکه 15000", budgetSaveBtn:"بودیجه خوندي کړئ", budgetRemoveBtn:"بودیجه لرې کړئ", overBudget:"له بودیجې زیات",
+    nearBudget:"بودیجې ته نږدې", searchPlaceholder:"ننوتنې ولټوئ…", filterAll:"ټول ډولونه",
+    insightUp:"تاسو تېره میاشتې پرتله {pct}% ډېر لګښت وکړ", insightDown:"تاسو تېره میاشتې پرتله {pct}% کم لګښت وکړ 🎉",
+    insightSame:"د تېرې میاشتې په څېر", shareSummary:"لنډیز شریک کړئ", noResults:"ستاسو لټون سره هېڅ ننوتنه نه مطابقت لري۔" },
+
+  hno: { tagline:"گھر دا حساب، ٹھیک رکھیا", balanceLabel:"ایس مہینے دا بیلنس", incomeLabel:"آمدن", spentLabel:"خرچ",
+    tabAdd:"شامل کرو", tabHistory:"تاریخ", tabCategories:"قسماں", tabPassbook:"پاس بک",
+    newEntry:"نویں انٹری", editingEntry:"انٹری چ سودھ", cancelEdit:"سودھ منسوخ کرو", expense:"خرچ", income:"آمدن",
+    amountLabel:"رقم", categoryLabel:"قسم", itemsToggle:"+ مقدار نال چیزاں شامل کرو (جیویں گروسری لسٹ)",
+    itemName:"چیز", itemQty:"مقدار", itemPrice:"قیمت", addAnotherItem:"+ ہک ہور چیز شامل کرو", itemsTotal:"کل رقم:",
+    noteLabel:"نوٹ (اختیاری)", notePlaceholder:"جیویں ہفتہ وار گروسری", saveEntry:"انٹری محفوظ کرو", updateEntry:"انٹری اپڈیٹ کرو",
+    footerNote:"مکمل آف لائن کم کردا اے — انٹریاں صرف ایس ڈیوائس تے محفوظ نیں۔", currencyPrefix:"کرنسی:", languagePrefix:"بولی:",
+    resetEntries:"انٹریاں ری سیٹ کرو", emptyHistory:"ہجے تک کوئی انٹری کائنی۔ 'شامل کرو' ٹیب توں پہلی انٹری شامل کرو۔ 🙂",
+    emptyCategories:"ہجے تک کوئی خرچ درج کائنی تھیا۔", emptyPassbook:"ہجے تک کوئی انٹری کائنی۔ انٹریاں پاؤن نال پاس بک بھر ویسی۔",
+    pbDateDetail:"تاریخ / تفصیل", pbBalance:"بیلنس", resetSheetTitle:"انٹریاں ری سیٹ کرو", resetSheetText:"چُنو کہ لیجر کیویں ری سیٹ کرنا ہے۔",
+    deleteAllBtn:"🗑 ساریاں انٹریاں مٹاؤ", restoreDemoBtn:"↺ نمونہ ڈیٹا بحال کرو", cancelBtn:"منسوخ",
+    clearAllTitle:"ساریاں انٹریاں مٹاؤ؟", clearAllText:"ایہہ ساریاں آمدن تے خرچ دیاں انٹریاں ہٹا دیوے گا۔ ایہہ واپس کائنی تھی سکدا۔",
+    keepEntries:"انٹریاں رکھو", deleteAll:"سب مٹاؤ", restoreTitle:"نمونہ ڈیٹا بحال کرو؟",
+    restoreText:"ایہہ تہاڈیاں موجودہ انٹریاں کوں اصل نمونہ انٹریاں نال بدل دیوے گا۔", restoreBtn:"بحال کرو",
+    editEntryBtn:"✎ انٹری چ سودھ کرو", deleteEntryBtn:"🗑 انٹری مٹاؤ", deleteThisTitle:"ایہہ انٹری مٹاؤ؟",
+    keepIt:"رکھو", deleteBtn:"مٹاؤ", chooseCurrencyTitle:"کرنسی چُنو", chooseCurrencyText:"ایہہ ایس ڈیوائس تے رقم دکھاؤن دا طریقہ بدل دیندا اے۔",
+    chooseLanguageTitle:"بولی چُنو", chooseLanguageText:"ایہہ ایس ڈیوائس تے ایپ دی بولی بدل دیندا اے۔",
+    voiceHint:"آواز نال شامل کرو", voiceListening:"سُن ریا اے… ہُن بولو", voiceUnsupported:"ایس براؤزر چ آواز دی سہولت کائنی۔ کروم استعمال کرو۔",
+    voiceCaptured:"مل گیا — تھلے تفصیل چیک کرو 👍", savedToast:"محفوظ تھی گیا! ✅",
+    repeatMonthly:"🔁 ہر مہینے دہراؤ", setBudget:"بجٹ مقرر کرو", budgetLabel:"بجٹ", budgetSheetTitle:"ماہانہ بجٹ مقرر کرو",
+    budgetPlaceholder:"جیویں 15000", budgetSaveBtn:"بجٹ محفوظ کرو", budgetRemoveBtn:"بجٹ ہٹاؤ", overBudget:"بجٹ کنوں زیادہ",
+    nearBudget:"بجٹ دے نیڑے", searchPlaceholder:"انٹریاں لبھو…", filterAll:"ساریاں قسماں",
+    insightUp:"تہاڈا پچھلے مہینے کنوں {pct}% ودھ خرچ تھیا", insightDown:"تہاڈا پچھلے مہینے کنوں {pct}% گھٹ خرچ تھیا 🎉",
+    insightSame:"پچھلے مہینے جیہا ای", shareSummary:"خلاصہ شیئر کرو", noResults:"تہاڈی تلاش نال کوئی انٹری میل کائنی کھاندی۔" },
+
+  ar: { tagline:"حسابات المنزل، بشكل منظم", balanceLabel:"رصيد هذا الشهر", incomeLabel:"الدخل", spentLabel:"المصروف",
+    tabAdd:"إضافة", tabHistory:"السجل", tabCategories:"الفئات", tabPassbook:"دفتر الحساب",
+    newEntry:"قيد جديد", editingEntry:"تعديل القيد", cancelEdit:"إلغاء التعديل", expense:"مصروف", income:"دخل",
+    amountLabel:"المبلغ", categoryLabel:"الفئة", itemsToggle:"+ إضافة أصناف بكمية (مثل قائمة التسوق)",
+    itemName:"الصنف", itemQty:"الكمية", itemPrice:"السعر", addAnotherItem:"+ إضافة صنف آخر", itemsTotal:"إجمالي الأصناف:",
+    noteLabel:"ملاحظة (اختياري)", notePlaceholder:"مثال: تسوق أسبوعي", saveEntry:"حفظ القيد", updateEntry:"تحديث القيد",
+    footerNote:"يعمل بدون إنترنت بالكامل — تُحفظ القيود على هذا الجهاز فقط.", currencyPrefix:"العملة:", languagePrefix:"اللغة:",
+    resetEntries:"إعادة تعيين القيود", emptyHistory:"لا توجد قيود بعد. أضف أول قيد من تبويب الإضافة. 🙂",
+    emptyCategories:"لا توجد مصروفات مسجلة بعد.", emptyPassbook:"لا توجد قيود بعد. سيمتلئ دفتر الحساب عند إضافتها.",
+    pbDateDetail:"التاريخ / التفاصيل", pbBalance:"الرصيد", resetSheetTitle:"إعادة تعيين القيود", resetSheetText:"اختر طريقة إعادة تعيين دفتر الحسابات.",
+    deleteAllBtn:"🗑 حذف جميع القيود", restoreDemoBtn:"↺ استعادة بيانات تجريبية", cancelBtn:"إلغاء",
+    clearAllTitle:"حذف جميع القيود؟", clearAllText:"سيؤدي هذا إلى إزالة جميع قيود الدخل والمصروف. لا يمكن التراجع عن هذا.",
+    keepEntries:"الاحتفاظ بالقيود", deleteAll:"حذف الكل", restoreTitle:"استعادة البيانات التجريبية؟",
+    restoreText:"سيستبدل هذا قيودك الحالية بالقيود التجريبية الأصلية.", restoreBtn:"استعادة",
+    editEntryBtn:"✎ تعديل القيد", deleteEntryBtn:"🗑 حذف القيد", deleteThisTitle:"حذف هذا القيد؟",
+    keepIt:"الاحتفاظ به", deleteBtn:"حذف", chooseCurrencyTitle:"اختر العملة", chooseCurrencyText:"هذا يغيّر طريقة عرض المبالغ على هذا الجهاز.",
+    chooseLanguageTitle:"اختر اللغة", chooseLanguageText:"هذا يغيّر لغة التطبيق على هذا الجهاز.",
+    voiceHint:"إضافة بالصوت", voiceListening:"يستمع… تحدث الآن", voiceUnsupported:"الإدخال الصوتي غير مدعوم في هذا المتصفح. جرّب كروم.",
+    voiceCaptured:"تم — تحقق من التفاصيل أدناه 👍", savedToast:"تم الحفظ! ✅",
+    repeatMonthly:"🔁 التكرار شهريًا", setBudget:"تحديد الميزانية", budgetLabel:"الميزانية", budgetSheetTitle:"تحديد الميزانية الشهرية",
+    budgetPlaceholder:"مثال: 15000", budgetSaveBtn:"حفظ الميزانية", budgetRemoveBtn:"إزالة الميزانية", overBudget:"تجاوز الميزانية",
+    nearBudget:"قريب من الميزانية", searchPlaceholder:"البحث في القيود…", filterAll:"جميع الفئات",
+    insightUp:"أنفقت {pct}% أكثر من الشهر الماضي", insightDown:"أنفقت {pct}% أقل من الشهر الماضي 🎉",
+    insightSame:"مثل الشهر الماضي تقريبًا", shareSummary:"مشاركة الملخص", noResults:"لا توجد قيود مطابقة لبحثك." },
+
+  de: { tagline:"Haushaltsbuchhaltung, ordentlich geführt", balanceLabel:"Saldo diesen Monat", incomeLabel:"Einnahmen", spentLabel:"Ausgaben",
+    tabAdd:"Hinzufügen", tabHistory:"Verlauf", tabCategories:"Kategorien", tabPassbook:"Kontobuch",
+    newEntry:"Neuer Eintrag", editingEntry:"Eintrag bearbeiten", cancelEdit:"Bearbeitung abbrechen", expense:"Ausgabe", income:"Einnahme",
+    amountLabel:"Betrag", categoryLabel:"Kategorie", itemsToggle:"+ Artikel mit Menge hinzufügen (z. B. Einkaufsliste)",
+    itemName:"Artikel", itemQty:"Menge", itemPrice:"Preis", addAnotherItem:"+ Weiteren Artikel hinzufügen", itemsTotal:"Summe:",
+    noteLabel:"Notiz (optional)", notePlaceholder:"z. B. wöchentlicher Einkauf", saveEntry:"Eintrag speichern", updateEntry:"Eintrag aktualisieren",
+    footerNote:"Funktioniert komplett offline — Einträge werden nur auf diesem Gerät gespeichert.", currencyPrefix:"Währung:", languagePrefix:"Sprache:",
+    resetEntries:"Einträge zurücksetzen", emptyHistory:"Noch keine Einträge. Füge deinen ersten im Tab „Hinzufügen“ hinzu. 🙂",
+    emptyCategories:"Noch keine Ausgaben erfasst.", emptyPassbook:"Noch keine Einträge. Dein Kontobuch füllt sich, sobald du welche hinzufügst.",
+    pbDateDetail:"Datum / Details", pbBalance:"Saldo", resetSheetTitle:"Einträge zurücksetzen", resetSheetText:"Wähle, wie du das Kontobuch zurücksetzen möchtest.",
+    deleteAllBtn:"🗑 Alle Einträge löschen", restoreDemoBtn:"↺ Beispieldaten wiederherstellen", cancelBtn:"Abbrechen",
+    clearAllTitle:"Alle Einträge löschen?", clearAllText:"Dies entfernt alle Einnahmen- und Ausgabeneinträge. Das kann nicht rückgängig gemacht werden.",
+    keepEntries:"Einträge behalten", deleteAll:"Alle löschen", restoreTitle:"Beispieldaten wiederherstellen?",
+    restoreText:"Dies ersetzt deine aktuellen Einträge durch die ursprünglichen Beispieleinträge.", restoreBtn:"Wiederherstellen",
+    editEntryBtn:"✎ Eintrag bearbeiten", deleteEntryBtn:"🗑 Eintrag löschen", deleteThisTitle:"Diesen Eintrag löschen?",
+    keepIt:"Behalten", deleteBtn:"Löschen", chooseCurrencyTitle:"Währung wählen", chooseCurrencyText:"Dies ändert, wie Beträge auf diesem Gerät angezeigt werden.",
+    chooseLanguageTitle:"Sprache wählen", chooseLanguageText:"Dies ändert die Sprache der App auf diesem Gerät.",
+    voiceHint:"Per Sprache hinzufügen", voiceListening:"Hört zu… jetzt sprechen", voiceUnsupported:"Spracheingabe wird in diesem Browser nicht unterstützt. Versuche Chrome.",
+    voiceCaptured:"Erfasst — bitte unten prüfen 👍", savedToast:"Gespeichert! ✅",
+    repeatMonthly:"🔁 Monatlich wiederholen", setBudget:"Budget festlegen", budgetLabel:"Budget", budgetSheetTitle:"Monatliches Budget festlegen",
+    budgetPlaceholder:"z. B. 15000", budgetSaveBtn:"Budget speichern", budgetRemoveBtn:"Budget entfernen", overBudget:"Budget überschritten",
+    nearBudget:"Budget fast erreicht", searchPlaceholder:"Einträge suchen…", filterAll:"Alle Kategorien",
+    insightUp:"Du hast {pct}% mehr ausgegeben als letzten Monat", insightDown:"Du hast {pct}% weniger ausgegeben als letzten Monat 🎉",
+    insightSame:"Etwa wie letzten Monat", shareSummary:"Zusammenfassung teilen", noResults:"Keine Einträge gefunden." },
+
+  fr: { tagline:"Comptes du foyer, bien tenus", balanceLabel:"Solde ce mois-ci", incomeLabel:"Revenus", spentLabel:"Dépensé",
+    tabAdd:"Ajouter", tabHistory:"Historique", tabCategories:"Catégories", tabPassbook:"Livret",
+    newEntry:"Nouvelle entrée", editingEntry:"Modifier l'entrée", cancelEdit:"Annuler la modification", expense:"Dépense", income:"Revenu",
+    amountLabel:"Montant", categoryLabel:"Catégorie", itemsToggle:"+ Ajouter des articles avec quantité (ex. liste de courses)",
+    itemName:"Article", itemQty:"Qté", itemPrice:"Prix", addAnotherItem:"+ Ajouter un autre article", itemsTotal:"Total articles :",
+    noteLabel:"Note (facultatif)", notePlaceholder:"ex. courses hebdomadaires", saveEntry:"Enregistrer l'entrée", updateEntry:"Mettre à jour l'entrée",
+    footerNote:"Fonctionne entièrement hors ligne — les entrées sont stockées uniquement sur cet appareil.", currencyPrefix:"Devise :", languagePrefix:"Langue :",
+    resetEntries:"Réinitialiser les entrées", emptyHistory:"Aucune entrée pour l'instant. Ajoutez-en une depuis l'onglet Ajouter. 🙂",
+    emptyCategories:"Aucune dépense enregistrée pour l'instant.", emptyPassbook:"Aucune entrée pour l'instant. Votre livret se remplira au fur et à mesure.",
+    pbDateDetail:"Date / Détail", pbBalance:"Solde", resetSheetTitle:"Réinitialiser les entrées", resetSheetText:"Choisissez comment réinitialiser le livret.",
+    deleteAllBtn:"🗑 Supprimer toutes les entrées", restoreDemoBtn:"↺ Restaurer les données de démonstration", cancelBtn:"Annuler",
+    clearAllTitle:"Supprimer toutes les entrées ?", clearAllText:"Cela supprime toutes les entrées de revenus et de dépenses. Action irréversible.",
+    keepEntries:"Conserver les entrées", deleteAll:"Tout supprimer", restoreTitle:"Restaurer les données de démonstration ?",
+    restoreText:"Cela remplace vos entrées actuelles par les entrées de démonstration d'origine.", restoreBtn:"Restaurer",
+    editEntryBtn:"✎ Modifier l'entrée", deleteEntryBtn:"🗑 Supprimer l'entrée", deleteThisTitle:"Supprimer cette entrée ?",
+    keepIt:"Conserver", deleteBtn:"Supprimer", chooseCurrencyTitle:"Choisir la devise", chooseCurrencyText:"Cela change l'affichage des montants sur cet appareil.",
+    chooseLanguageTitle:"Choisir la langue", chooseLanguageText:"Cela change la langue de l'application sur cet appareil.",
+    voiceHint:"Ajouter par la voix", voiceListening:"Écoute en cours… parlez", voiceUnsupported:"La saisie vocale n'est pas prise en charge sur ce navigateur. Essayez Chrome.",
+    voiceCaptured:"C'est noté — vérifiez les détails ci-dessous 👍", savedToast:"Enregistré ! ✅",
+    repeatMonthly:"🔁 Répéter chaque mois", setBudget:"Définir un budget", budgetLabel:"Budget", budgetSheetTitle:"Définir le budget mensuel",
+    budgetPlaceholder:"ex. 15000", budgetSaveBtn:"Enregistrer le budget", budgetRemoveBtn:"Supprimer le budget", overBudget:"Budget dépassé",
+    nearBudget:"Proche du budget", searchPlaceholder:"Rechercher des entrées…", filterAll:"Toutes les catégories",
+    insightUp:"Vous avez dépensé {pct}% de plus que le mois dernier", insightDown:"Vous avez dépensé {pct}% de moins que le mois dernier 🎉",
+    insightSame:"Comme le mois dernier", shareSummary:"Partager le résumé", noResults:"Aucune entrée ne correspond à votre recherche." },
+
+  bn: { tagline:"ঘরের হিসাব, সঠিকভাবে রাখা", balanceLabel:"এই মাসের ব্যালেন্স", incomeLabel:"আয়", spentLabel:"খরচ",
+    tabAdd:"যোগ করুন", tabHistory:"ইতিহাস", tabCategories:"বিভাগ", tabPassbook:"পাসবুক",
+    newEntry:"নতুন এন্ট্রি", editingEntry:"এন্ট্রি সম্পাদনা", cancelEdit:"সম্পাদনা বাতিল", expense:"খরচ", income:"আয়",
+    amountLabel:"পরিমাণ", categoryLabel:"বিভাগ", itemsToggle:"+ পরিমাণসহ আইটেম যোগ করুন (যেমন মুদি তালিকা)",
+    itemName:"আইটেম", itemQty:"পরিমাণ", itemPrice:"দাম", addAnotherItem:"+ আরেকটি আইটেম যোগ করুন", itemsTotal:"মোট:",
+    noteLabel:"নোট (ঐচ্ছিক)", notePlaceholder:"যেমন সাপ্তাহিক বাজার", saveEntry:"এন্ট্রি সংরক্ষণ করুন", updateEntry:"এন্ট্রি আপডেট করুন",
+    footerNote:"সম্পূর্ণ অফলাইনে কাজ করে — এন্ট্রিগুলো শুধু এই ডিভাইসে সংরক্ষিত থাকে।", currencyPrefix:"মুদ্রা:", languagePrefix:"ভাষা:",
+    resetEntries:"এন্ট্রি রিসেট করুন", emptyHistory:"এখনো কোনো এন্ট্রি নেই। 'যোগ করুন' ট্যাব থেকে প্রথমটি যোগ করুন। 🙂",
+    emptyCategories:"এখনো কোনো খরচ রেকর্ড করা হয়নি।", emptyPassbook:"এখনো কোনো এন্ট্রি নেই। এন্ট্রি যোগ করলে পাসবুক ভরে যাবে।",
+    pbDateDetail:"তারিখ / বিবরণ", pbBalance:"ব্যালেন্স", resetSheetTitle:"এন্ট্রি রিসেট করুন", resetSheetText:"লেজার কীভাবে রিসেট করতে চান তা বেছে নিন।",
+    deleteAllBtn:"🗑 সব এন্ট্রি মুছুন", restoreDemoBtn:"↺ নমুনা ডেটা পুনরুদ্ধার করুন", cancelBtn:"বাতিল",
+    clearAllTitle:"সব এন্ট্রি মুছবেন?", clearAllText:"এটি সব আয় ও খরচের এন্ট্রি সরিয়ে দেবে। এটি ফিরিয়ে আনা যাবে না।",
+    keepEntries:"এন্ট্রি রাখুন", deleteAll:"সব মুছুন", restoreTitle:"নমুনা ডেটা পুনরুদ্ধার করবেন?",
+    restoreText:"এটি আপনার বর্তমান এন্ট্রিগুলো মূল নমুনা এন্ট্রি দিয়ে প্রতিস্থাপন করবে।", restoreBtn:"পুনরুদ্ধার",
+    editEntryBtn:"✎ এন্ট্রি সম্পাদনা করুন", deleteEntryBtn:"🗑 এন্ট্রি মুছুন", deleteThisTitle:"এই এন্ট্রিটি মুছবেন?",
+    keepIt:"রাখুন", deleteBtn:"মুছুন", chooseCurrencyTitle:"মুদ্রা নির্বাচন করুন", chooseCurrencyText:"এটি এই ডিভাইসে অর্থ প্রদর্শনের পদ্ধতি পরিবর্তন করে।",
+    chooseLanguageTitle:"ভাষা নির্বাচন করুন", chooseLanguageText:"এটি এই ডিভাইসে অ্যাপের ভাষা পরিবর্তন করে।",
+    voiceHint:"কণ্ঠস্বর দিয়ে যোগ করুন", voiceListening:"শুনছে… এখন বলুন", voiceUnsupported:"এই ব্রাউজারে ভয়েস ইনপুট সমর্থিত নয়। ক্রোম ব্যবহার করুন।",
+    voiceCaptured:"পাওয়া গেছে — নিচে বিস্তারিত দেখুন 👍", savedToast:"সংরক্ষিত হয়েছে! ✅",
+    repeatMonthly:"🔁 প্রতি মাসে পুনরাবৃত্তি", setBudget:"বাজেট নির্ধারণ করুন", budgetLabel:"বাজেট", budgetSheetTitle:"মাসিক বাজেট নির্ধারণ করুন",
+    budgetPlaceholder:"যেমন ১৫০০০", budgetSaveBtn:"বাজেট সংরক্ষণ করুন", budgetRemoveBtn:"বাজেট সরান", overBudget:"বাজেট অতিক্রম",
+    nearBudget:"বাজেটের কাছাকাছি", searchPlaceholder:"এন্ট্রি খুঁজুন…", filterAll:"সব বিভাগ",
+    insightUp:"আপনি গত মাসের চেয়ে {pct}% বেশি খরচ করেছেন", insightDown:"আপনি গত মাসের চেয়ে {pct}% কম খরচ করেছেন 🎉",
+    insightSame:"গত মাসের মতোই", shareSummary:"সারাংশ শেয়ার করুন", noResults:"আপনার অনুসন্ধানের সাথে কোনো এন্ট্রি মেলেনি।" },
+};
+
+const CAT_LABELS = {
+  en: { Groceries:"Groceries", Utilities:"Utilities", Transport:"Transport", Rent:"Rent", Health:"Health", Education:"Education", Household:"Household", Other:"Other", Salary:"Salary", Business:"Business", Gift:"Gift", "Other income":"Other income" },
+  ur: { Groceries:"گروسری", Utilities:"بجلی/گیس بل", Transport:"آمدورفت", Rent:"کرایہ", Health:"صحت", Education:"تعلیم", Household:"گھریلو سامان", Other:"دیگر", Salary:"تنخواہ", Business:"کاروبار", Gift:"تحفہ", "Other income":"دیگر آمدنی" },
+  ps: { Groceries:"پیرودنه", Utilities:"بریښنا/ګاز بل", Transport:"لیږد راوړ", Rent:"کرایه", Health:"روغتیا", Education:"زده کړه", Household:"کورنی سامان", Other:"نور", Salary:"معاش", Business:"سوداګري", Gift:"ډالۍ", "Other income":"نور عاید" },
+  hno: { Groceries:"گروسری", Utilities:"بجلی/گیس بل", Transport:"آمدورفت", Rent:"کرایہ", Health:"صحت", Education:"تعلیم", Household:"گھریلو سامان", Other:"ہور", Salary:"تنخواہ", Business:"کاروبار", Gift:"تحفہ", "Other income":"ہور آمدن" },
+  ar: { Groceries:"بقالة", Utilities:"فواتير", Transport:"مواصلات", Rent:"إيجار", Health:"صحة", Education:"تعليم", Household:"مستلزمات منزلية", Other:"أخرى", Salary:"راتب", Business:"عمل تجاري", Gift:"هدية", "Other income":"دخل آخر" },
+  de: { Groceries:"Lebensmittel", Utilities:"Nebenkosten", Transport:"Transport", Rent:"Miete", Health:"Gesundheit", Education:"Bildung", Household:"Haushalt", Other:"Sonstiges", Salary:"Gehalt", Business:"Geschäft", Gift:"Geschenk", "Other income":"Sonstige Einnahmen" },
+  fr: { Groceries:"Épicerie", Utilities:"Charges", Transport:"Transport", Rent:"Loyer", Health:"Santé", Education:"Éducation", Household:"Ménage", Other:"Autre", Salary:"Salaire", Business:"Affaires", Gift:"Cadeau", "Other income":"Autre revenu" },
+  bn: { Groceries:"মুদি", Utilities:"ইউটিলিটি", Transport:"যাতায়াত", Rent:"ভাড়া", Health:"স্বাস্থ্য", Education:"শিক্ষা", Household:"গৃহস্থালি", Other:"অন্যান্য", Salary:"বেতন", Business:"ব্যবসা", Gift:"উপহার", "Other income":"অন্যান্য আয়" },
+};
+
+function getLangPref(){
+  return localStorage.getItem('gl_lang') || 'en';
+}
+
+function setLangPref(code){
+  localStorage.setItem('gl_lang', code);
+  applyLangDirection(code);
+  applyTranslations();
+}
+
+function applyLangDirection(code){
+  const meta = LANGS.find(l => l.code === code) || LANGS[0];
+  document.documentElement.lang = meta.code;
+  document.documentElement.dir = meta.dir;
+  const lbl = document.getElementById('languageLabel');
+  if (lbl) lbl.textContent = meta.native;
+}
+
+function t(key){
+  const lang = getLangPref();
+  return (I18N[lang] && I18N[lang][key]) || I18N.en[key] || key;
+}
+
+function catLabel(cat){
+  const lang = getLangPref();
+  return (CAT_LABELS[lang] && CAT_LABELS[lang][cat]) || cat;
+}
+
+function updateAmountLabel(){
+  const el = document.getElementById('amountLabelText');
+  if (!el) return;
+  const cur = getCurrencyPref();
+  el.textContent = t('amountLabel') + ' (' + cur.symbol + ')';
+}
+
+function applyTranslations(){
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+  });
+  document.getElementById('inNote').placeholder = t('notePlaceholder');
+  document.getElementById('saveBtn').textContent = editingId ? t('updateEntry') : t('saveEntry');
+  document.getElementById('formTitleText').textContent = editingId ? t('editingEntry') : t('newEntry');
+  updateAmountLabel();
+  populateCategories(document.getElementById('inCategory').value);
+  populateHistoryFilter();
+  render();
+}
+
+function showToast(msg){
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => el.classList.remove('show'), 2200);
+}
 
 let entries = [];
 let currentType = "out";
@@ -493,6 +1021,7 @@ async function loadEntries(){
   }catch(e){
     entries = seedData();
   }
+  await processRecurringEntries();
   render();
 }
 
@@ -507,8 +1036,84 @@ async function saveEntries(){
 function populateCategories(selectedValue){
   const sel = document.getElementById('inCategory');
   const cats = currentType === 'out' ? EXPENSE_CATS : INCOME_CATS;
-  sel.innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
+  sel.innerHTML = cats.map(c => `<option value="${c}">${catLabel(c)}</option>`).join('');
   if(selectedValue && cats.includes(selectedValue)) sel.value = selectedValue;
+}
+
+function populateHistoryFilter(){
+  const sel = document.getElementById('historyFilter');
+  if(!sel) return;
+  const current = sel.value;
+  const allCats = [...EXPENSE_CATS, ...INCOME_CATS];
+  sel.innerHTML = `<option value="">${t('filterAll')}</option>` +
+    allCats.map(c => `<option value="${c}">${catLabel(c)}</option>`).join('');
+  if(allCats.includes(current)) sel.value = current;
+}
+
+/* ---------- Budgets (per expense category, monthly) ---------- */
+function getBudgets(){
+  try{ return JSON.parse(localStorage.getItem('gl_budgets') || '{}'); }catch(e){ return {}; }
+}
+function setBudget(cat, amount){
+  const b = getBudgets();
+  if(amount > 0){ b[cat] = amount; } else { delete b[cat]; }
+  localStorage.setItem('gl_budgets', JSON.stringify(b));
+}
+function removeBudget(cat){
+  const b = getBudgets();
+  delete b[cat];
+  localStorage.setItem('gl_budgets', JSON.stringify(b));
+}
+
+function openBudgetSheet(cat){
+  const budgets = getBudgets();
+  const existing = budgets[cat] || '';
+  openOverlay(`
+    <div class="sheet-title">${catLabel(cat)}</div>
+    <div class="sheet-entry" style="font-size:14px; margin-bottom:10px;">${t('budgetSheetTitle')}</div>
+    <input type="number" id="budgetInput" value="${existing}" placeholder="${t('budgetPlaceholder')}"
+      style="width:100%; padding:14px; font-size:16px; border:2px solid var(--line); border-radius:12px; margin-bottom:14px; font-family:inherit; background:var(--paper-raised); color:var(--ink);">
+    <button class="sheet-btn" id="budgetSaveBtn" style="justify-content:center; background:linear-gradient(135deg, var(--purple), var(--teal)); color:#fff; border:none;">${t('budgetSaveBtn')}</button>
+    ${existing ? `<button class="sheet-btn danger" id="budgetRemoveBtn" style="justify-content:center;">${t('budgetRemoveBtn')}</button>` : ''}
+    <button class="sheet-btn cancel" id="budgetCancelBtn">${t('cancelBtn')}</button>
+  `);
+  document.getElementById('budgetSaveBtn').onclick = () => {
+    const val = parseFloat(document.getElementById('budgetInput').value);
+    setBudget(cat, val || 0);
+    closeOverlay();
+    render();
+  };
+  const removeBtn = document.getElementById('budgetRemoveBtn');
+  if(removeBtn) removeBtn.onclick = () => { removeBudget(cat); closeOverlay(); render(); };
+  document.getElementById('budgetCancelBtn').onclick = closeOverlay;
+}
+
+/* ---------- Recurring entries ---------- */
+function currentYM(d){
+  d = d || new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+}
+
+async function processRecurringEntries(){
+  const nowYM = currentYM();
+  let changed = false;
+  const toAdd = [];
+  entries.forEach(e => {
+    if(!e.recurring) return;
+    if(e.lastGeneratedMonth === nowYM) return;
+    const origYM = currentYM(new Date(e.date));
+    if(origYM === nowYM) { e.lastGeneratedMonth = nowYM; changed = true; return; }
+    toAdd.push({
+      id: Date.now() + Math.floor(Math.random()*1000),
+      type: e.type, amount: e.amount, category: e.category, note: e.note,
+      date: new Date().toISOString(),
+      recurringParent: e.id
+    });
+    e.lastGeneratedMonth = nowYM;
+    changed = true;
+  });
+  if(toAdd.length){ entries = entries.concat(toAdd); }
+  if(changed){ await saveEntries(); }
 }
 
 function setType(type){
@@ -529,15 +1134,39 @@ document.querySelectorAll('.tab').forEach(tab => {
   };
 });
 
+document.getElementById('historySearch').addEventListener('input', () => render());
+document.getElementById('historyFilter').addEventListener('change', () => render());
+
+document.getElementById('shareBtn').onclick = () => {
+  const inTotal = entries.filter(e=>e.type==='in').reduce((s,e)=>s+e.amount,0);
+  const outTotal = entries.filter(e=>e.type==='out').reduce((s,e)=>s+e.amount,0);
+  const byCat = {};
+  entries.filter(e=>e.type==='out').forEach(e=>{ byCat[e.category] = (byCat[e.category]||0) + e.amount; });
+  const topCats = Object.keys(byCat).sort((a,b)=>byCat[b]-byCat[a]).slice(0,3)
+    .map(c => `• ${catLabel(c)}: ${fmt(byCat[c])}`).join('\n');
+
+  const lines = [
+    `🏠 *${monthLabel}*`,
+    `${t('balanceLabel')}: ${fmt(inTotal - outTotal)}`,
+    `${t('incomeLabel')}: ${fmt(inTotal)}`,
+    `${t('spentLabel')}: ${fmt(outTotal)}`,
+    topCats ? '\n' + topCats : ''
+  ].filter(Boolean).join('\n');
+
+  const url = 'https://wa.me/?text=' + encodeURIComponent(lines);
+  window.open(url, '_blank');
+};
+
 function renderItemRows(){
   const wrap = document.getElementById('itemRows');
+  const cur = getCurrencyPref();
   wrap.innerHTML = `
-    <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Price</span><span></span></div>
+    <div class="item-row-labels"><span>${t('itemName')}</span><span>${t('itemQty')}</span><span>${t('itemPrice')}</span><span></span></div>
     ${currentItems.map((it, i) => `
       <div class="item-row" data-i="${i}">
         <input type="text" class="it-name" placeholder="e.g. Rice" value="${it.name || ''}">
         <input type="number" class="it-qty" placeholder="1" value="${it.qty || ''}" inputmode="decimal">
-        <input type="number" class="it-price" placeholder="Rs" value="${it.price || ''}" inputmode="decimal">
+        <input type="number" class="it-price" placeholder="${cur.symbol}" value="${it.price || ''}" inputmode="decimal">
         <div class="item-remove" data-remove="${i}">✕</div>
       </div>
     `).join('')}
@@ -583,11 +1212,12 @@ document.getElementById('addItemBtn').onclick = () => {
 
 function resetForm(){
   editingId = null;
-  document.getElementById('formTitleText').textContent = 'New entry';
+  document.getElementById('formTitleText').textContent = t('newEntry');
   document.getElementById('cancelEdit').style.display = 'none';
-  document.getElementById('saveBtn').textContent = 'Save entry';
+  document.getElementById('saveBtn').textContent = t('saveEntry');
   document.getElementById('inAmount').value = '';
   document.getElementById('inNote').value = '';
+  document.getElementById('inRecurring').checked = false;
   currentItems = [];
   document.getElementById('itemBuilder').style.display = 'none';
   document.getElementById('itemRows').innerHTML = '';
@@ -603,11 +1233,12 @@ document.getElementById('saveBtn').onclick = async () => {
   const category = document.getElementById('inCategory').value;
   const note = document.getElementById('inNote').value.trim();
   const items = currentItems.filter(it => it.name && it.name.trim());
+  const recurring = document.getElementById('inRecurring').checked;
 
   if(editingId){
     const idx = entries.findIndex(e => e.id === editingId);
     if(idx > -1){
-      entries[idx] = { ...entries[idx], type: currentType, amount, category, note, items: items.length ? items : undefined };
+      entries[idx] = { ...entries[idx], type: currentType, amount, category, note, items: items.length ? items : undefined, recurring };
     }
   } else {
     entries.unshift({
@@ -615,23 +1246,157 @@ document.getElementById('saveBtn').onclick = async () => {
       type: currentType,
       amount, category, note,
       items: items.length ? items : undefined,
-      date: new Date().toISOString()
+      date: new Date().toISOString(),
+      recurring,
+      lastGeneratedMonth: recurring ? currentYM() : undefined
     });
   }
 
   await saveEntries();
   resetForm();
   render();
+  showToast(t('savedToast'));
   document.querySelector('[data-tab="history"]').click();
 };
 
+document.getElementById('currencyLink').onclick = () => {
+  const current = getCurrencyPref();
+  const buttonsHtml = CURRENCY_OPTIONS.map((c, i) => `
+    <button class="sheet-btn${c.symbol === current.symbol ? ' selected' : ''}" data-idx="${i}">${c.label}</button>
+  `).join('');
+  openOverlay(`
+    <div class="sheet-title">${t('chooseCurrencyTitle')}</div>
+    <div class="sheet-entry">${t('chooseCurrencyText')}</div>
+    ${buttonsHtml}
+    <button class="sheet-btn cancel" id="currencyCancelBtn">${t('cancelBtn')}</button>
+  `);
+  CURRENCY_OPTIONS.forEach((c, i) => {
+    const btn = document.querySelector(`[data-idx="${i}"]`);
+    if (btn) btn.onclick = () => {
+      setCurrencyPref(c.symbol, c.locale, c.label);
+      updateAmountLabel();
+      closeOverlay();
+      render();
+    };
+  });
+  document.getElementById('currencyCancelBtn').onclick = closeOverlay;
+};
+
+document.getElementById('languageLink').onclick = () => {
+  const current = getLangPref();
+  const buttonsHtml = LANGS.map((l, i) => `
+    <button class="sheet-btn${l.code === current ? ' selected' : ''}" data-lang-idx="${i}">${l.native}</button>
+  `).join('');
+  openOverlay(`
+    <div class="sheet-title">${t('chooseLanguageTitle')}</div>
+    <div class="sheet-entry">${t('chooseLanguageText')}</div>
+    ${buttonsHtml}
+    <button class="sheet-btn cancel" id="languageCancelBtn">${t('cancelBtn')}</button>
+  `);
+  LANGS.forEach((l, i) => {
+    const btn = document.querySelector(`[data-lang-idx="${i}"]`);
+    if (btn) btn.onclick = () => {
+      setLangPref(l.code);
+      closeOverlay();
+    };
+  });
+  document.getElementById('languageCancelBtn').onclick = closeOverlay;
+};
+
+/* ---------- Voice input: speak an entry, we fill the form ---------- */
+const INCOME_HINT_WORDS = {
+  en: ['income','salary','received','earned','got paid','credit'],
+  ur: ['آمدنی','تنخواہ','ملا','ملے'],
+  ps: ['عاید','معاش','ترلاسه','ملاوشو'],
+  hno: ['آمدن','تنخواہ','ملیا','ملے'],
+  ar: ['دخل','راتب','استلمت','قبضت'],
+  de: ['einnahme','gehalt','erhalten','bekommen'],
+  fr: ['revenu','salaire','reçu','gagné'],
+  bn: ['আয়','বেতন','পেয়েছি','পেলাম'],
+};
+
+function parseVoiceTranscript(transcript){
+  const text = transcript.trim();
+  const lower = text.toLowerCase();
+  const lang = getLangPref();
+
+  // amount: first run of digits (with optional decimal/thousand separators)
+  const numMatch = text.match(/[\d]+(?:[.,]\d+)?/);
+  const amount = numMatch ? parseFloat(numMatch[0].replace(/,/g,'')) : null;
+
+  // income vs expense
+  const hints = INCOME_HINT_WORDS[lang] || INCOME_HINT_WORDS.en;
+  const isIncome = hints.some(w => lower.includes(w.toLowerCase()) || text.includes(w));
+
+  // category match against translated + English labels
+  const cats = isIncome ? INCOME_CATS : EXPENSE_CATS;
+  let matchedCat = null;
+  for(const c of cats){
+    const localized = catLabel(c).toLowerCase();
+    if(lower.includes(c.toLowerCase()) || (localized && text.includes(catLabel(c)))){
+      matchedCat = c;
+      break;
+    }
+  }
+
+  return { amount, type: isIncome ? 'in' : 'out', category: matchedCat, note: text };
+}
+
+function initVoiceCapture(){
+  const btn = document.getElementById('voiceBtn');
+  const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if(!SpeechRecognitionCtor){
+    btn.onclick = () => showToast(t('voiceUnsupported'));
+    return;
+  }
+
+  let recognizing = false;
+  const recognition = new SpeechRecognitionCtor();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  function setListening(on){
+    recognizing = on;
+    btn.classList.toggle('listening', on);
+    document.getElementById('voiceBtnLabel').textContent = on ? t('voiceListening') : t('voiceHint');
+  }
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    const parsed = parseVoiceTranscript(transcript);
+
+    setType(parsed.type);
+    populateCategories(parsed.category || undefined);
+    if(parsed.amount){ document.getElementById('inAmount').value = parsed.amount; }
+    document.getElementById('inNote').value = parsed.note;
+    if(currentItems.length){
+      currentItems = [];
+      document.getElementById('itemBuilder').style.display = 'none';
+      document.getElementById('itemRows').innerHTML = '';
+    }
+    showToast(t('voiceCaptured'));
+  };
+
+  recognition.onerror = () => setListening(false);
+  recognition.onend = () => setListening(false);
+
+  btn.onclick = () => {
+    if(recognizing){ recognition.stop(); return; }
+    const meta = LANGS.find(l => l.code === getLangPref()) || LANGS[0];
+    recognition.lang = meta.speech;
+    setListening(true);
+    try{ recognition.start(); }catch(e){ setListening(false); }
+  };
+}
+
 document.getElementById('resetLink').onclick = () => {
   openOverlay(`
-    <div class="sheet-title">Reset entries</div>
-    <div class="sheet-entry">Choose how you'd like to reset the ledger.</div>
-    <button class="sheet-btn danger" id="clearAllBtn">🗑 &nbsp; Delete all entries</button>
-    <button class="sheet-btn" id="restoreDemoBtn">↺ &nbsp; Restore sample data</button>
-    <button class="sheet-btn cancel" id="resetCancelBtn">Cancel</button>
+    <div class="sheet-title">${t('resetSheetTitle')}</div>
+    <div class="sheet-entry">${t('resetSheetText')}</div>
+    <button class="sheet-btn danger" id="clearAllBtn">${t('deleteAllBtn')}</button>
+    <button class="sheet-btn" id="restoreDemoBtn">${t('restoreDemoBtn')}</button>
+    <button class="sheet-btn cancel" id="resetCancelBtn">${t('cancelBtn')}</button>
   `);
   document.getElementById('clearAllBtn').onclick = () => confirmClearAll();
   document.getElementById('restoreDemoBtn').onclick = () => confirmRestoreDemo();
@@ -640,11 +1405,11 @@ document.getElementById('resetLink').onclick = () => {
 
 function confirmClearAll(){
   openOverlay(`
-    <div class="sheet-title">Delete all entries?</div>
-    <div class="sheet-entry">This removes every income and expense entry. This can't be undone.</div>
+    <div class="sheet-title">${t('clearAllTitle')}</div>
+    <div class="sheet-entry">${t('clearAllText')}</div>
     <div class="confirm-row">
-      <button class="sheet-btn cancel" id="noBtn" style="flex:1;">Keep entries</button>
-      <button class="sheet-btn danger" id="yesBtn" style="flex:1;">Delete all</button>
+      <button class="sheet-btn cancel" id="noBtn" style="flex:1;">${t('keepEntries')}</button>
+      <button class="sheet-btn danger" id="yesBtn" style="flex:1;">${t('deleteAll')}</button>
     </div>
   `);
   document.getElementById('noBtn').onclick = closeOverlay;
@@ -659,11 +1424,11 @@ function confirmClearAll(){
 
 function confirmRestoreDemo(){
   openOverlay(`
-    <div class="sheet-title">Restore sample data?</div>
-    <div class="sheet-entry">This replaces your current entries with the original demo entries.</div>
+    <div class="sheet-title">${t('restoreTitle')}</div>
+    <div class="sheet-entry">${t('restoreText')}</div>
     <div class="confirm-row">
-      <button class="sheet-btn cancel" id="noBtn" style="flex:1;">Cancel</button>
-      <button class="sheet-btn danger" id="yesBtn" style="flex:1;">Restore</button>
+      <button class="sheet-btn cancel" id="noBtn" style="flex:1;">${t('cancelBtn')}</button>
+      <button class="sheet-btn danger" id="yesBtn" style="flex:1;">${t('restoreBtn')}</button>
     </div>
   `);
   document.getElementById('noBtn').onclick = closeOverlay;
@@ -676,8 +1441,38 @@ function confirmRestoreDemo(){
   };
 }
 
+const CURRENCY_OPTIONS = [
+  { label: 'Rs (India/Pakistan)', symbol: 'Rs', locale: 'en-IN' },
+  { label: 'AED (UAE)',           symbol: 'AED', locale: 'en-AE' },
+  { label: 'SAR (Saudi Arabia)',  symbol: 'SAR', locale: 'en-SA' },
+  { label: 'QAR (Qatar)',         symbol: 'QAR', locale: 'en-QA' },
+  { label: '$ (US Dollar)',       symbol: '$', locale: 'en-US' },
+  { label: '£ (British Pound)',   symbol: '£', locale: 'en-GB' },
+  { label: '€ (Euro)',            symbol: '€', locale: 'de-DE' },
+];
+
+function getCurrencyPref(){
+  try{
+    return JSON.parse(localStorage.getItem('gl_currency') || 'null') || CURRENCY_OPTIONS[0];
+  }catch(e){
+    return CURRENCY_OPTIONS[0];
+  }
+}
+
+function setCurrencyPref(symbol, locale, label){
+  localStorage.setItem('gl_currency', JSON.stringify({ symbol, locale, label: label || symbol }));
+  const lbl = document.getElementById('currencyLabel');
+  if (lbl) lbl.textContent = label || symbol;
+}
+
 function fmt(n){
-  return 'Rs ' + Math.round(n).toLocaleString('en-IN');
+  const { symbol, locale } = getCurrencyPref();
+  return symbol + ' ' + Math.round(n).toLocaleString(locale);
+}
+
+function fmtNum(n){
+  const { locale } = getCurrencyPref();
+  return Math.round(n).toLocaleString(locale);
 }
 
 function openOverlay(html){
@@ -706,13 +1501,13 @@ function openEntryActions(id){
 
   openOverlay(`
     <div class="sheet-title">${new Date(entry.date).toLocaleDateString('en-US',{weekday:'long', day:'numeric', month:'long'})}</div>
-    <div class="sheet-entry">${entry.category}${entry.note ? ' — ' + entry.note : ''}<br>
+    <div class="sheet-entry">${catLabel(entry.category)}${entry.note ? ' — ' + entry.note : ''}${entry.recurring ? ' <span class="recur-tag">🔁</span>' : ''}<br>
       <b class="${entry.type}" style="color:${entry.type==='out' ? 'var(--red)' : 'var(--green)'}">${entry.type==='out'?'-':'+'}${fmt(entry.amount)}</b>
     </div>
     ${itemsHtml}
-    <button class="sheet-btn" id="editBtn">✎ &nbsp; Edit / rewrite entry</button>
-    <button class="sheet-btn danger" id="deleteBtn">🗑 &nbsp; Delete entry</button>
-    <button class="sheet-btn cancel" id="cancelBtn">Cancel</button>
+    <button class="sheet-btn" id="editBtn">${t('editEntryBtn')}</button>
+    <button class="sheet-btn danger" id="deleteBtn">${t('deleteEntryBtn')}</button>
+    <button class="sheet-btn cancel" id="cancelBtn">${t('cancelBtn')}</button>
   `);
 
   document.getElementById('editBtn').onclick = () => {
@@ -721,9 +1516,10 @@ function openEntryActions(id){
     populateCategories(entry.category);
     document.getElementById('inAmount').value = entry.amount;
     document.getElementById('inNote').value = entry.note || '';
-    document.getElementById('formTitleText').textContent = 'Editing entry';
+    document.getElementById('inRecurring').checked = !!entry.recurring;
+    document.getElementById('formTitleText').textContent = t('editingEntry');
     document.getElementById('cancelEdit').style.display = 'inline';
-    document.getElementById('saveBtn').textContent = 'Update entry';
+    document.getElementById('saveBtn').textContent = t('updateEntry');
     if(entry.items && entry.items.length){
       currentItems = entry.items.map(it => ({...it}));
       document.getElementById('itemBuilder').style.display = 'block';
@@ -743,13 +1539,13 @@ function openEntryActions(id){
 function confirmDelete(id){
   const entry = entries.find(e => e.id === id);
   openOverlay(`
-    <div class="sheet-title">Delete this entry?</div>
-    <div class="sheet-entry">${entry.category}${entry.note ? ' — ' + entry.note : ''}<br>
+    <div class="sheet-title">${t('deleteThisTitle')}</div>
+    <div class="sheet-entry">${catLabel(entry.category)}${entry.note ? ' — ' + entry.note : ''}<br>
       <b style="color:${entry.type==='out' ? 'var(--red)' : 'var(--green)'}">${entry.type==='out'?'-':'+'}${fmt(entry.amount)}</b>
     </div>
     <div class="confirm-row">
-      <button class="sheet-btn cancel" id="noBtn" style="flex:1;">Keep it</button>
-      <button class="sheet-btn danger" id="yesBtn" style="flex:1;">Delete</button>
+      <button class="sheet-btn cancel" id="noBtn" style="flex:1;">${t('keepIt')}</button>
+      <button class="sheet-btn danger" id="yesBtn" style="flex:1;">${t('deleteBtn')}</button>
     </div>
   `);
   document.getElementById('noBtn').onclick = closeOverlay;
@@ -762,22 +1558,84 @@ function confirmDelete(id){
   };
 }
 
+function computeInsight(){
+  const now = new Date();
+  const thisYM = currentYM(now);
+  const prevDate = new Date(now.getFullYear(), now.getMonth()-1, 1);
+  const prevYM = currentYM(prevDate);
+  let thisTotal = 0, prevTotal = 0;
+  entries.forEach(e => {
+    if(e.type !== 'out') return;
+    const ym = currentYM(new Date(e.date));
+    if(ym === thisYM) thisTotal += e.amount;
+    else if(ym === prevYM) prevTotal += e.amount;
+  });
+  return { thisTotal, prevTotal };
+}
+
+function renderCategoryDonut(byCat){
+  const wrap = document.getElementById('catDonutWrap');
+  const total = Object.values(byCat).reduce((a,b)=>a+b,0);
+  if(total <= 0){ wrap.innerHTML = ''; return; }
+  const palette = ['#6C4CE0','#00BFA6','#FF6FA5','#FFB020','#12B76A','#FF5A5F','#3B82F6','#F59E0B'];
+  const catKeys = Object.keys(byCat).sort((a,b)=>byCat[b]-byCat[a]);
+  const r = 46, cx = 60, cy = 60, circumference = 2*Math.PI*r;
+  let cumulative = 0;
+  const circles = catKeys.map((cat, i) => {
+    const pct = byCat[cat]/total*100;
+    const dash = (pct/100)*circumference;
+    const gap = circumference - dash;
+    const offset = -(cumulative/100)*circumference;
+    cumulative += pct;
+    return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${palette[i % palette.length]}" stroke-width="16" stroke-dasharray="${dash.toFixed(1)} ${gap.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"/>`;
+  }).join('');
+  const legend = catKeys.map((cat,i) => `
+    <div class="item"><span class="swatch" style="background:${palette[i%palette.length]}"></span>
+      <span>${catLabel(cat)} · ${Math.round(byCat[cat]/total*100)}%</span></div>
+  `).join('');
+  wrap.innerHTML = `
+    <div class="donut-wrap">
+      <svg width="120" height="120" viewBox="0 0 120 120" style="flex-shrink:0;">
+        <g transform="rotate(-90 60 60)">${circles}</g>
+        <text x="60" y="65" text-anchor="middle" class="donut-center-total">${fmtNum(total)}</text>
+      </svg>
+      <div class="donut-legend">${legend}</div>
+    </div>
+  `;
+}
+
 function render(){
   const inTotal = entries.filter(e=>e.type==='in').reduce((s,e)=>s+e.amount,0);
   const outTotal = entries.filter(e=>e.type==='out').reduce((s,e)=>s+e.amount,0);
   document.getElementById('balanceDisplay').textContent = fmt(inTotal - outTotal);
-  document.getElementById('inTotal').textContent = fmt(inTotal).replace('Rs ','');
-  document.getElementById('outTotal').textContent = fmt(outTotal).replace('Rs ','');
+  document.getElementById('inTotal').textContent = fmtNum(inTotal);
+  document.getElementById('outTotal').textContent = fmtNum(outTotal);
+
+  // ---- History: filtered/searched view ----
+  const searchQuery = (document.getElementById('historySearch').value || '').trim().toLowerCase();
+  const filterCat = document.getElementById('historyFilter').value;
+  let visibleEntries = entries.slice();
+  if(filterCat) visibleEntries = visibleEntries.filter(e => e.category === filterCat);
+  if(searchQuery){
+    visibleEntries = visibleEntries.filter(e => {
+      const noteMatch = (e.note || '').toLowerCase().includes(searchQuery);
+      const catMatch = catLabel(e.category).toLowerCase().includes(searchQuery) || e.category.toLowerCase().includes(searchQuery);
+      const amtMatch = String(e.amount).includes(searchQuery);
+      return noteMatch || catMatch || amtMatch;
+    });
+  }
 
   const groups = {};
-  entries.slice().sort((a,b)=> new Date(b.date)-new Date(a.date)).forEach(e=>{
+  visibleEntries.slice().sort((a,b)=> new Date(b.date)-new Date(a.date)).forEach(e=>{
     const day = new Date(e.date).toLocaleDateString('en-US',{weekday:'short', day:'numeric', month:'short'});
     (groups[day] = groups[day] || []).push(e);
   });
 
   const histEl = document.getElementById('historyList');
   if(entries.length === 0){
-    histEl.innerHTML = '<div class="empty-note">No entries yet. Add your first one from the Add tab.</div>';
+    histEl.innerHTML = `<div class="empty-note">${t('emptyHistory')}</div>`;
+  } else if(visibleEntries.length === 0){
+    histEl.innerHTML = `<div class="empty-note">${t('noResults')}</div>`;
   } else {
     histEl.innerHTML = Object.keys(groups).map(day => `
       <div class="day-group">
@@ -785,12 +1643,12 @@ function render(){
         ${groups[day].map(e => `
           <div class="entry" data-id="${e.id}">
             <div class="entry-left">
-              <div class="entry-cat">${e.category}</div>
+              <div class="entry-cat">${catLabel(e.category)}${e.recurring ? ' <span class="recur-tag">🔁</span>' : ''}</div>
               ${e.note ? `<div class="entry-note">${e.note}</div>` : ''}
               ${e.items && e.items.length ? `<div class="entry-note">${e.items.length} item${e.items.length>1?'s':''} listed</div>` : ''}
             </div>
             <div class="entry-right">
-              <div class="entry-amt ${e.type}">${e.type==='out'?'-':'+'}${fmt(e.amount).replace('Rs ','')}</div>
+              <div class="entry-amt ${e.type}">${e.type==='out'?'-':'+'}${fmtNum(e.amount)}</div>
               <div class="chev">›</div>
             </div>
           </div>
@@ -803,22 +1661,70 @@ function render(){
     });
   }
 
+  // ---- Monthly insight ----
+  const insightEl = document.getElementById('insightCard');
+  const { thisTotal, prevTotal } = computeInsight();
+  if(prevTotal > 0){
+    const pctChange = ((thisTotal - prevTotal) / prevTotal) * 100;
+    const rounded = Math.round(Math.abs(pctChange));
+    let icon = '➡️', text;
+    if(Math.abs(pctChange) < 3){
+      text = t('insightSame');
+    } else if(pctChange > 0){
+      icon = '📈';
+      text = t('insightUp').replace('{pct}', rounded);
+    } else {
+      icon = '📉';
+      text = t('insightDown').replace('{pct}', rounded);
+    }
+    insightEl.className = 'insight-card';
+    insightEl.style.display = 'flex';
+    insightEl.innerHTML = `<span style="font-size:20px;">${icon}</span><span>${text}</span>`;
+  } else {
+    insightEl.style.display = 'none';
+  }
+
+  // ---- Categories: donut + budget-aware bars ----
   const byCat = {};
   entries.filter(e=>e.type==='out').forEach(e=>{
     byCat[e.category] = (byCat[e.category]||0) + e.amount;
   });
   const maxCat = Math.max(1, ...Object.values(byCat));
+  const budgets = getBudgets();
   const catEl = document.getElementById('catList');
   const catKeys = Object.keys(byCat).sort((a,b)=>byCat[b]-byCat[a]);
   if(catKeys.length === 0){
-    catEl.innerHTML = '<div class="empty-note">No expenses recorded yet.</div>';
+    document.getElementById('catDonutWrap').innerHTML = '';
+    catEl.innerHTML = `<div class="empty-note">${t('emptyCategories')}</div>`;
   } else {
-    catEl.innerHTML = catKeys.map(cat => `
-      <div class="cat-row">
-        <div class="cat-top"><span>${cat}</span><span class="cat-amt">${fmt(byCat[cat])}</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:${(byCat[cat]/maxCat*100).toFixed(0)}%"></div></div>
-      </div>
-    `).join('');
+    renderCategoryDonut(byCat);
+    catEl.innerHTML = catKeys.map(cat => {
+      const budget = budgets[cat];
+      let barWidthPct, barColor, bottomLine;
+      if(budget){
+        const ratio = byCat[cat] / budget;
+        barWidthPct = Math.min(100, ratio * 100);
+        let statusCls = '', statusText = '';
+        if(ratio >= 1){ barColor = 'var(--red)'; statusCls = 'over'; statusText = ' ⚠️ ' + t('overBudget'); }
+        else if(ratio >= 0.8){ barColor = 'var(--gold)'; statusCls = 'warn'; statusText = ' · ' + t('nearBudget'); }
+        else { barColor = 'linear-gradient(90deg, var(--teal), var(--green))'; }
+        bottomLine = `<div class="cat-budget-text ${statusCls}">${fmtNum(byCat[cat])} / ${fmtNum(budget)}${statusText} <span class="cat-budget-link" data-budget-cat="${cat}">✎</span></div>`;
+      } else {
+        barWidthPct = (byCat[cat] / maxCat) * 100;
+        barColor = 'linear-gradient(90deg, var(--purple), var(--pink), var(--gold))';
+        bottomLine = `<div class="cat-budget-text"><span class="cat-budget-link" data-budget-cat="${cat}">${t('setBudget')}</span></div>`;
+      }
+      return `
+        <div class="cat-row">
+          <div class="cat-top"><span>${catLabel(cat)}</span><span class="cat-amt">${fmt(byCat[cat])}</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:${barWidthPct.toFixed(0)}%; background:${barColor};"></div></div>
+          ${bottomLine}
+        </div>
+      `;
+    }).join('');
+    catEl.querySelectorAll('[data-budget-cat]').forEach(el => {
+      el.onclick = () => openBudgetSheet(el.dataset.budgetCat);
+    });
   }
 
   renderPassbook();
@@ -827,7 +1733,7 @@ function render(){
 function renderPassbook(){
   const pbEl = document.getElementById('passbookList');
   if(entries.length === 0){
-    pbEl.innerHTML = '<div class="empty-note">No entries yet. Your passbook will fill in as you add them.</div>';
+    pbEl.innerHTML = `<div class="empty-note">${t('emptyPassbook')}</div>`;
     return;
   }
   // chronological sequence, oldest first, with running balance
@@ -836,7 +1742,7 @@ function renderPassbook(){
   const rows = ordered.map(e => {
     running += e.type === 'in' ? e.amount : -e.amount;
     const dateStr = new Date(e.date).toLocaleDateString('en-US',{day:'numeric', month:'short', year:'numeric'});
-    const desc = e.category + (e.note ? ' — ' + e.note : '') + (e.items && e.items.length ? ` (${e.items.length} items)` : '');
+    const desc = catLabel(e.category) + (e.note ? ' — ' + e.note : '') + (e.items && e.items.length ? ` (${e.items.length} items)` : '');
     return `
       <div class="pb-row">
         <div class="pb-left">
@@ -844,7 +1750,7 @@ function renderPassbook(){
           <div class="pb-desc">${desc}</div>
         </div>
         <div class="pb-right">
-          <div class="pb-amt ${e.type}">${e.type==='out'?'-':'+'}${fmt(e.amount).replace('Rs ','')}</div>
+          <div class="pb-amt ${e.type}">${e.type==='out'?'-':'+'}${fmtNum(e.amount)}</div>
           <div class="pb-balance">${fmt(running)}</div>
         </div>
       </div>
@@ -856,6 +1762,15 @@ function renderPassbook(){
 
 populateCategories();
 loadEntries();
+initVoiceCapture();
+
+(() => {
+  const pref = getCurrencyPref();
+  const lbl = document.getElementById('currencyLabel');
+  if (lbl) lbl.textContent = pref.label || (pref.symbol + ' ' + pref.locale);
+  applyLangDirection(getLangPref());
+  applyTranslations();
+})();
 
 try{
   const lic = JSON.parse(localStorage.getItem('gl_license') || 'null');
